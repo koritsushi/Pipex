@@ -72,13 +72,9 @@ int	main(int argc, char **argv, char **envp)
 	while (split_path[j] != NULL)
 		printf("%s\n", split_path[j++]);
 	while (access(split_path[k], F_OK) != 0)
-	{
 		k++;
-	}	
 	if (execve(split_path[k], command, envp) == -1)
-	{
 		fprintf(stderr, "Error executing %s\n", split_path[k]);
-	}
 	printf("done!\n");
 	return (0);
 }
