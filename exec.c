@@ -14,7 +14,7 @@ int	ft_find_path(char **envp)
 		if (envp[i][j] != '\0')
 		{
 			if (ft_strncmp("PATH=", envp[i], 5) == 0)
-					return (i);
+				return (i);
 			i++;
 		}
 	}
