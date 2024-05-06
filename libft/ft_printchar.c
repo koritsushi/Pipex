@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printchar.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mliyuan <mliyuan@student.42.my>            +#+  +:+       +#+        */
+/*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 13:22:13 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/03/24 22:52:57 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/05/06 16:26:21 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
 int	ft_char_helper(va_list args)
 {

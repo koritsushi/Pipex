@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printhexa.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mliyuan <mliyuan@student.42.my>            +#+  +:+       +#+        */
+/*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 15:02:22 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/03/24 22:27:54 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/05/06 16:26:20 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
 int	ft_hexa_upper_helper(va_list args)
 {

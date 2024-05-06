@@ -16,6 +16,8 @@
 # include <limits.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <stdarg.h>
+# include <stdint.h>
 
 //part 1
 int		ft_atoi(const char *nptr);
@@ -42,6 +44,26 @@ void	*ft_memmove(void *dest, const void *src, size_t n);
 
 void	*ft_calloc(size_t count, size_t size);
 char	*ft_strdup(const char *s);
+
+// main printf function
+int	ft_printf(const char *str, ...);
+
+//helper function
+int	ft_char_helper(va_list args);
+int	ft_str_helper(va_list args);
+int	ft_num_helper(va_list args);
+int	ft_uint_helper(va_list args);
+int ft_hexa_upper_helper(va_list args);
+int ft_hexa_lower_helper(va_list args);
+int	ft_memory_helper(va_list args);
+
+int	ft_printchar(const char chr);
+int	ft_printstr(const char *str);
+int	ft_printnum(int num);
+int	ft_printuint(unsigned long num);
+int	ft_printhexa_upper(unsigned long num);
+int	ft_printhexa_lower(unsigned long num);
+int	ft_printmemory(uintptr_t ptr);
 
 //part 2
 char	*ft_substr(char const *s, unsigned int start, size_t len);
