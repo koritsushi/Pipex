@@ -49,7 +49,6 @@ char	*ft_strjoin3(char const *s1, char const *s2, char const *s3)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*command[] = {"ls", "-la", NULL};
 	char	**split_path;
 	int		i;
 	int 	j;
@@ -60,12 +59,18 @@ int	main(int argc, char **argv, char **envp)
 	j = 0;
 	k = 0;
 	l = 0;
+	if (argc < 2)
+	{
+		printf("please input 2 argument\n");
+		return (0);
+	}
+	
 	printf("%d\n", ft_find_path(envp));
 	printf("%s\n", envp[i]);
 	split_path = ft_split(envp[i] + 5, ':');
 	while (split_path[j] != NULL)
 	{
-		split_path[j] = ft_strjoin3(split_path[j], "/", command[0]);
+		split_path[j] = ft_strjoin3(split_path[j], "/", argv[1]);
 		j++;
 	}
 	j = 0;
@@ -73,7 +78,7 @@ int	main(int argc, char **argv, char **envp)
 		printf("%s\n", split_path[j++]);
 	while (access(split_path[k], F_OK) != 0)
 		k++;
-	if (execve(split_path[k], command, envp) == -1)
+	if (execve(split_path[k], &argv[1], envp) == -1)
 		fprintf(stderr, "Error executing %s\n", split_path[k]);
 	printf("done!\n");
 	return (0);
