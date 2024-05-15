@@ -1,3 +1,4 @@
+#include <fcntl.h>
 #include <sys/wait.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -30,6 +31,7 @@ int	main()
 		if (id2 == 0)
 		{
 			printf("2nd child of parent\n");
+			open("test2.txt", O_CREAT);
 		}
 		else
 		{

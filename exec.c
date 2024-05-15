@@ -59,9 +59,9 @@ int	main(int argc, char **argv, char **envp)
 	j = 0;
 	k = 0;
 	l = 0;
-	if (argc < 2)
+	if (argc < 4)
 	{
-		printf("please input 2 argument\n");
+		printf("please input 4 argument\n");
 		return (0);
 	}
 	
