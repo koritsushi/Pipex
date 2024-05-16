@@ -61,7 +61,7 @@ int	main(int argc, char **argv, char **envp)
 	l = 0;
 	if (argc < 4)
 	{
-		printf("please input 4 argument\n");
+		printf("Error! Usage: (infile) (command1) (command2) (outfile)\n");
 		return (0);
 	}
 	

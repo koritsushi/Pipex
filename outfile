@@ -1,12 +1,1 @@
-total 36
--rwxrwxrwx 1 mah mah  1385 May 13 10:56 Makefile
--rwxrwxrwx 1 mah mah  1053 May  6 15:37 Pipex.c
--rwxrwxrwx 1 mah mah     0 Apr 30 13:21 Pipex_bonus.c
--rwxrwxrwx 1 mah mah     0 Apr 30 13:21 Pipex_utils.c
--rwxrwxrwx 1 mah mah     0 Apr 30 13:21 Pipex_utils_bonus.c
--rwxrwxrwx 1 mah mah 16408 May 13 14:44 a.out
--rwxrwxrwx 1 mah mah  1446 May 13 10:56 exec.c
--rwxrwxrwx 1 mah mah   449 May 13 17:09 infile
-drwxrwxrwx 1 mah mah  4096 May  6 16:27 libft
--rwxrwxrwx 1 mah mah     0 May 13 17:10 outfile
--rwxrwxrwx 1 mah mah  1098 May 13 14:47 test.c
+       0
