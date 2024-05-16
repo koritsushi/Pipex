@@ -19,7 +19,7 @@ int	main()
 	{
 		if (id2 == 0)
 		{
-			printf("grandchild\n");
+			printf("grandchild of 1st child of parent\n");
 		}
 		else
 		{
@@ -31,7 +31,6 @@ int	main()
 		if (id2 == 0)
 		{
 			printf("2nd child of parent\n");
-			open("test2.txt", O_CREAT);
 		}
 		else
 		{

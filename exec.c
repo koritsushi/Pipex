@@ -11,12 +11,9 @@ int	ft_find_path(char **envp)
 	j = 0;
 	while (envp[i] != NULL)
 	{
-		if (envp[i][j] != '\0')
-		{
-			if (ft_strncmp("PATH=", envp[i], 5) == 0)
-				return (i);
-			i++;
-		}
+		if (ft_strncmp("PATH=", envp[i], 5) == 0)
+			return (i);
+		i++;
 	}
 	return (-1);
 }
@@ -28,17 +25,16 @@ char	*ft_strjoin3(char const *s1, char const *s2, char const *s3)
 	size_t	k;
 	char	*dst;
 
-	i = 0;
+	i = -1;
 	j = 0;
 	k = 0;
-	if (s1 == NULL | s2 == NULL | s3 == NULL)
+	if (s1 == NULL || s2 == NULL || s3 == NULL)
 		return (NULL);
 	dst = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + ft_strlen(s3) + 1));
-	while (s1[i] != '\0')
-	{
+	if (dst == NULL)
+		return (NULL);
+	while (s1[++i] != '\0')
 		dst[i] = s1[i];
-		i++;
-	}
 	while (s2[j] != '\0')
 		dst[i++] = s2[j++];
 	while (s3[k] != '\0')
@@ -59,12 +55,11 @@ int	main(int argc, char **argv, char **envp)
 	j = 0;
 	k = 0;
 	l = 0;
-	if (argc < 4)
+	if (argc < 2)
 	{
 		printf("Error! Usage: (infile) (command1) (command2) (outfile)\n");
 		return (0);
 	}
-	
 	printf("%d\n", ft_find_path(envp));
 	printf("%s\n", envp[i]);
 	split_path = ft_split(envp[i] + 5, ':');
