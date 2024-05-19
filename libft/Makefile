@@ -6,7 +6,7 @@
 #    By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/17 15:55:31 by mliyuan           #+#    #+#              #
-#    Updated: 2024/05/17 16:00:01 by mliyuan          ###   ########.fr        #
+#    Updated: 2024/05/19 21:52:53 by mliyuan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,9 +56,6 @@ FT_PRINTF	=		ft_printf.c 					\
 GNL			=		get_next_line.c					\
 					get_next_line_utils.c
 
-GNL_BONUS	=		get_next_line_bonus.c			\
-					get_next_line_utils_bonus.c	
-
 BONUS		=		ft_lstnew.c 					\
 					ft_lstadd_front.c				\
 					ft_lstsize.c					\
@@ -72,7 +69,7 @@ BONUS		=		ft_lstnew.c 					\
 
 OBJS		= 		$(MANDATORY:%.c=%.o) 			\
 					$(FT_PRINTF:%.c=%.o)			\
-					$(GNL:%.c=%.0)
+					$(GNL:%.c=%.o)
 
 OBJS_BONUS	= 		$(BONUS:%.c=%.o)
 NAME		= 		libft.a

@@ -5,23 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/02 15:31:01 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/04/03 22:54:03 by mliyuan          ###   ########.fr       */
+/*   Created: 2024/03/12 13:48:25 by mliyuan           #+#    #+#             */
+/*   Updated: 2024/05/19 21:53:17 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "libft.h"
 
-t_list	*ft_lstlast(t_list *lst)
-{
-	if (lst == NULL)
-		return (NULL);
-	while (lst->next != NULL)
-		lst = lst->next;
-	return (lst);
-}
-
-int	ft_newline(t_list *lst)
+int	ft_newline(t_gnl_list *lst)
 {
 	int	i;
 
@@ -30,7 +21,7 @@ int	ft_newline(t_list *lst)
 	while (lst)
 	{
 		i = 0;
-		while (lst->content[i] != '\0' && i < BUFFER_SIZE)
+		while (lst->content[i] && i < BUFFER_SIZE)
 		{
 			if (lst->content[i] == '\n')
 				return (1);
@@ -41,10 +32,10 @@ int	ft_newline(t_list *lst)
 	return (0);
 }
 
-int	ft_len_to_newline(t_list *lst)
+int	ft_len_newline(t_gnl_list *lst)
 {
 	int	i;
-	int len;
+	int	len;
 
 	if (lst == NULL)
 		return (0);
@@ -52,53 +43,28 @@ int	ft_len_to_newline(t_list *lst)
 	while (lst)
 	{
 		i = 0;
-		while (lst->content[i])
+		while (lst->content[i] != '\0')
 		{
 			if (lst->content[i] == '\n')
 			{
-				++len;
+				len++;
 				return (len);
 			}
-			++i;
-			++len;
+			i++;
+			len++;
 		}
 		lst = lst->next;
 	}
 	return (len);
 }
 
-void	ft_append_line(t_list *lst, char *buffer)
+void	dealloc(t_gnl_list **lst, t_gnl_list *clean_node, char *buffer)
 {
-	int	i;
-	int	j;
+	t_gnl_list	*tmp;
 
-	while (lst)
-	{
-		i = 0;
-		while (lst->content[i] != '\0')
-		{
-			if (lst->content[i] == '\n')
-			{
-				buffer[j++] = '\n';
-				buffer[j] = '\0';
-				return ;
-			}
-			buffer[j] = lst->content[i];
-			j++;
-			i++;
-		}
-		lst = lst->next;
-	}
-	buffer[j] = '\0';
-}
-
-void	ft_lst_dealloc(t_list **lst, t_list *clean_node, char *buffer)
-{
-	t_list	*tmp;
-
-	if (lst == NULL)
+	if (*lst == NULL)
 		return ;
-	while (*lst)
+	while (*lst != NULL)
 	{
 		tmp = (*lst)->next;
 		free((*lst)->content);
@@ -113,4 +79,39 @@ void	ft_lst_dealloc(t_list **lst, t_list *clean_node, char *buffer)
 		free(buffer);
 		free(clean_node);
 	}
+}
+
+void	append_str(t_gnl_list *lst, char *str)
+{
+	int	i;
+	int	j;
+
+	if (lst == NULL)
+		return ;
+	j = 0;
+	while (lst)
+	{
+		i = 0;
+		while (lst->content[i])
+		{
+			if (lst->content[i] == '\n')
+			{
+				str[j++] = '\n';
+				str[j] = '\0';
+				return ;
+			}
+			str[j++] = lst->content[i++];
+		}
+		lst = lst->next;
+	}
+	str[j] = '\0';
+}
+
+t_gnl_list	*ft_llstlast(t_gnl_list *lst)
+{
+	if (lst == NULL)
+		return (NULL);
+	while (lst->next != NULL)
+		lst = lst->next;
+	return (lst);
 }
