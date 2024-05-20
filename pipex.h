@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 11:12:21 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/05/17 14:05:51 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/05/20 18:44:41 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,20 @@
 # include <errno.h>
 # include <stdio.h>
 
-typedef enum e_bool
-{
-	false,
-	true
-}	t_bool;
+int		ft_find_path(char **envp);
+char	*ft_strjoin3(char const *s1, char const *s2, char const *s3)
 
 typedef struct s_pipex
 {
-	int		pipefd[1024][2];
-	t_bool	here_doc;
-	t_bool	is_invalid_infile;
+	int		fd[2];
+	int		in_fd;
+	int		out_fd;
+	int		here_doc;
+	int		is_invalid_infile;
 	char	**cmd_paths;
 	char	***cmd_args;
 	int		cmd_count;
 }			t_pipex;
+
 
 #endif
