@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 11:12:21 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/05/23 16:10:51 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/05/23 17:16:11 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <sys/wait.h>
 # include <errno.h>
 # include <stdio.h>
+# include <stdlib.h>
 
 int		ft_find_path(char **envp);
 char	*ft_strjoin3(char const *s1, char const *s2, char const *s3)
