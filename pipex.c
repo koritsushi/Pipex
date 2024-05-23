@@ -6,18 +6,54 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 13:51:28 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/05/20 18:44:46 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/05/23 16:12:54 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	pipex_init(t_pipex global)
+void	ft_check_args()
 {
+	int		pipe_count; 
+	int		pipe_index;
+	int		i;
 	
+	if (argc < 5)
+	{	
+		printf("Error! Usage: ./pipex (infile) (command1) (command2) (outfile)\n");
+		return (0);
+	}
+	pipe_count = argc - 3;
+	pipe = malloc(sizeof(s_pipex) * pipe_count);
+	if (argv[1] == "here_doc")
+	{
+		pipe_count += 1;
+	}
+	else if (open(argv[1], O_READONLY) == -1)
+	{	
+		printf("pipex: no such file or directory: %s", argc[2]);
+		pipe.infile_fd = open(argv[1], O_RDONLY);
+	}
+	outfile_fd = open(argv[argc], O_RDWR | O_CREAT | O_TRUN);
+ 	i = 0;
+	pipe_index = 0;
+	while (pipe[i])
+	{
+		pipe[i].in_fd = pipe.pipes[pipe_index][1];
+		pipe_index++;
+		pipe[i].out_fd = pipe.pipes[pipe_index][0];
+		if (i == 1)
+		{
+			pipe[i].in_fd = pipe.infile_fd;
+		}
+		else if (i == argc)
+		{
+			pipe[i].out_fd = pipe.outfile_fd;
+		}
+	}
 }
 
-int		ft_redux(char **cmd)
+void	ft_redux(char **cmd)
 {
 	int	i;
 	int	j;
@@ -27,10 +63,9 @@ int		ft_redux(char **cmd)
 	if (pipe(s_pipex->pipefd[0]) == -1);
 		return (-1);
 	i = -1;
-	j = -1;
 	while (cmd[i++] != NULL)
 	{
-		if (access(cmd[i][j++], F_OK) == -1)
+		if (access(cmd[i++][j], F_OK) == -1)
 		{
 			ft_printf("pipex: command not found:%s\n" , cmd[i][j]);
 			return (-1);
@@ -41,6 +76,8 @@ int		ft_redux(char **cmd)
 	while (command > 0)
 	{
 		pid = fork();
+		if (pid == -1)
+			return ;
 		ft_execute(cmd[i][j]);
 		i++;
 		command--;
@@ -69,25 +106,10 @@ void	ft_execute(char *cmd)
 
 int		main(int argc, char **argv, char **envp)
 {
-	t_pipex	global;
-
-	if (argc < 5)
-	{	
-		printf("Error! Usage: ./pipex (infile) (command1) (command2) (outfile)\n");
-		return (0);
-	}
-	pipex_init(global);
-	if (argv[1] == "here_doc")
-	{
-
-	}
-	else if (open(argv[1], O_READONLY) == -1)
-	{	
-		printf("pipex: no such file or directory: %s", argc[2]);
-		
-	}
- 
+	struct 	s_pipex *pipe;
 	
+	ft_check_arg(pipe);
+
 	return (0);
 }
 
