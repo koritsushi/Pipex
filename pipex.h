@@ -6,21 +6,19 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 11:12:21 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/05/23 17:16:11 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/05/28 16:16:11 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
+# include "./libft/libft.h"
 # include <unistd.h>
 # include <fcntl.h>
 # include <sys/wait.h>
 # include <errno.h>
 # include <stdio.h>
 # include <stdlib.h>
-
-int		ft_find_path(char **envp);
-char	*ft_strjoin3(char const *s1, char const *s2, char const *s3)
 
 typedef struct s_pipex
 {
@@ -34,5 +32,8 @@ typedef struct s_pipex
 	int		cmd_count;
 }			t_pipex;
 
+int		ft_find_path(char **envp);
+char	*ft_strjoin3(char const *s1, char const *s2, char const *s3);
+char	**ft_split_cmd(t_pipex *pipe, int argc, char **argv);
 
 #endif

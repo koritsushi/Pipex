@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 19:06:29 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/05/16 19:15:52 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/05/27 23:36:58 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*ft_strjoin3(char const *s1, char const *s2, char const *s3)
 	return (dst);
 }
 
-int	ft_find_path(char **envp)
+int		ft_find_path(char **envp)
 {
 	int	i;
 	int	j;
@@ -50,4 +50,32 @@ int	ft_find_path(char **envp)
 			return (i);
 		i++;
 	}
+	return (0);
+}
+
+char	**ft_split_cmd(t_pipex pipe, int argc, char **argv)
+{
+	char	**cmd;
+	char	**tmp;
+	int		i;
+	int		k;
+	int		len;
+
+	if (pipe->here_doc == 1)
+		len += 1;
+	i = 1 + len;
+	j = 0;
+	cmd = malloc(sizeof(char *) * (argc - 3 + len));
+	if (cmd == NULL)
+		return (ft_error());
+	while (argv[i] != NULL && i < argc - 2)
+	{
+		if (ft_strncmp(argv[i], "here_doc", 8) == 0)
+			i++;
+		tmp[j] = ft_split(argv[i], '');
+		cmd[j] = tmp[1];
+		i++
+		j++;
+	}
+	return (cmd);
 }

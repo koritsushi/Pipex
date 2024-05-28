@@ -6,7 +6,7 @@
 #    By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/17 15:55:31 by mliyuan           #+#    #+#              #
-#    Updated: 2024/05/19 21:52:53 by mliyuan          ###   ########.fr        #
+#    Updated: 2024/05/27 23:45:20 by mliyuan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,10 +87,10 @@ bonus:		$(OBJS_BONUS)
 			ar rcs $(NAME) $(OBJS_BONUS)
 
 clean:
-	rm -f $(OBJS) $(OBJS_BONUS)
+	@rm -f $(OBJS) $(OBJS_BONUS)
 
 fclean:	clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
 
 re:	fclean all
 

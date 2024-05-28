@@ -6,30 +6,32 @@
 #    By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/09 09:38:33 by mliyuan           #+#    #+#              #
-#    Updated: 2024/05/16 10:55:37 by mliyuan          ###   ########.fr        #
+#    Updated: 2024/05/28 16:04:14 by mliyuan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS 		=	
+SRCS 		=	pipex.c			\
+				pipex_utils.c	
 
 OBJS		=	$(SRCS:%.c=%.o)
 LIBFTDIR	=	./libft
 LIBFT		=	$(LIBFTDIR)/libft.a
-NAME		=	libftprintf.a
+NAME		=	libft.a
 CCFLAGS		=	gcc -Wall -Wextra -Werror
+COMPILE		=	gcc -Wall -Wextra -Werror
 
 %.o:%.c
-		%(CCFLAGS) -I. -c $< -o $@
+		$(COMPILE) -I. -c $< -o $@
 
 all: $(NAME)
 
-$(NAME):	%(LIBFT) %(OBJS)
+$(NAME):	$(LIBFT) $(OBJS)
 			cp $(LIBFT) $(NAME)
 			ar rcs $(NAME) $(OBJS) $(LIBFT)
-			$(CCFLAGS) pipex.c -o pipex
+			$(CCFLAGS) $(NAME) pipex.c -o pipex
 
 $(LIBFT):
-			make -C $(LIBFTDIR) all
+			@make -C $(LIBFTDIR) all
 
 clean:
 			@make -C $(LIBFTDIR) clean
