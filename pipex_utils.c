@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 19:06:29 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/05/27 23:36:58 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/05/29 16:06:20 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ char	*ft_strjoin3(char const *s1, char const *s2, char const *s3)
 	size_t	k;
 	char	*dst;
 
+	printf("s3: %s\n", s3);
 	i = -1;
 	j = 0;
 	k = 0;
@@ -40,10 +41,8 @@ char	*ft_strjoin3(char const *s1, char const *s2, char const *s3)
 int		ft_find_path(char **envp)
 {
 	int	i;
-	int	j;
 
 	i = 0;
-	j = 0;
 	while (envp[i] != NULL)
 	{
 		if (ft_strncmp("PATH=", envp[i], 5) == 0)
@@ -53,29 +52,40 @@ int		ft_find_path(char **envp)
 	return (0);
 }
 
-char	**ft_split_cmd(t_pipex pipe, int argc, char **argv)
+char	**ft_split_cmd(t_pipex *pipe, int argc, char **argv)
 {
 	char	**cmd;
 	char	**tmp;
 	int		i;
-	int		k;
+	int		j;
 	int		len;
 
+	len = 0;
 	if (pipe->here_doc == 1)
 		len += 1;
-	i = 1 + len;
+	i = 2 + len;
 	j = 0;
 	cmd = malloc(sizeof(char *) * (argc - 3 + len));
 	if (cmd == NULL)
-		return (ft_error());
-	while (argv[i] != NULL && i < argc - 2)
+		return (NULL);
+	while (argv[i] != NULL && i < argc - 1)
 	{
 		if (ft_strncmp(argv[i], "here_doc", 8) == 0)
 			i++;
-		tmp[j] = ft_split(argv[i], '');
+		tmp = ft_split(argv[i], ' ');
 		cmd[j] = tmp[1];
-		i++
+		i++;
 		j++;
 	}
+	cmd[j] = NULL;
 	return (cmd);
+}
+
+void	ft_exit_cleanup(t_pipex *pipe)
+{
+	if (pipe->pipes)
+	{
+		free(pipe->cmd_paths);
+		free(pipe->cmd_args);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 11:12:21 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/05/28 16:16:11 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/05/29 14:59:40 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,6 @@ typedef struct s_pipex
 int		ft_find_path(char **envp);
 char	*ft_strjoin3(char const *s1, char const *s2, char const *s3);
 char	**ft_split_cmd(t_pipex *pipe, int argc, char **argv);
+void	ft_exit_cleanup(t_pipex *pipe);
 
 #endif

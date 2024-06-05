@@ -6,12 +6,11 @@
 #    By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/09 09:38:33 by mliyuan           #+#    #+#              #
-#    Updated: 2024/05/28 16:04:14 by mliyuan          ###   ########.fr        #
+#    Updated: 2024/05/29 22:42:53 by mliyuan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS 		=	pipex.c			\
-				pipex_utils.c	
+SRCS 		=	pipex_utils.c	
 
 OBJS		=	$(SRCS:%.c=%.o)
 LIBFTDIR	=	./libft
@@ -28,7 +27,7 @@ all: $(NAME)
 $(NAME):	$(LIBFT) $(OBJS)
 			cp $(LIBFT) $(NAME)
 			ar rcs $(NAME) $(OBJS) $(LIBFT)
-			$(CCFLAGS) $(NAME) pipex.c -o pipex
+			$(CCFLAGS) pipex.c $(NAME) -o pipex
 
 $(LIBFT):
 			@make -C $(LIBFTDIR) all
@@ -40,6 +39,7 @@ clean:
 fclean:		clean
 			@make -C $(LIBFTDIR) fclean
 			@rm -rf $(NAME)
+			@rm -rf ./pipex
 
 re: fclean all
 
