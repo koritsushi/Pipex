@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 13:51:28 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/05/29 22:41:52 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/06/06 14:39:12 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ static void	ft_check_cmds(t_pipex *pipe, int argc, char **argv, char **envp)
 	int		j;
 	int		len;
 
+	len = 0;
 	cmd = ft_split_cmd(pipe, argc, argv);
 	for (int i = 0; cmd[i] != NULL; i++)
 		printf("%s\n", cmd[i]);
@@ -92,11 +93,11 @@ static void	ft_check_cmds(t_pipex *pipe, int argc, char **argv, char **envp)
 			if (i == len)
 			{
 				ft_printf("pipex: command does not exist: %s", cmd[i]);
+				free(split_path);
 				exit(EXIT_FAILURE);
 			}
 		}
 	}
-	free(split_path);
 }
 
 static void	ft_execute()

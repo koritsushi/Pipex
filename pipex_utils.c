@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 19:06:29 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/05/29 16:06:20 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/06/06 13:40:51 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,6 @@ char	**ft_split_cmd(t_pipex *pipe, int argc, char **argv)
 
 void	ft_exit_cleanup(t_pipex *pipe)
 {
-	if (pipe->pipes)
-	{
-		free(pipe->cmd_paths);
-		free(pipe->cmd_args);
-	}
+	free(pipe->cmd_paths);
+	free(pipe->cmd_args);
 }
