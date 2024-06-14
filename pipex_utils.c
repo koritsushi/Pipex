@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 19:06:29 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/06/06 13:40:51 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/06/14 18:11:46 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	**ft_split_cmd(t_pipex *pipe, int argc, char **argv)
 		if (ft_strncmp(argv[i], "here_doc", 8) == 0)
 			i++;
 		tmp = ft_split(argv[i], ' ');
-		cmd[j] = tmp[1];
+		cmd[j] = tmp[0];
 		i++;
 		j++;
 	}
@@ -81,8 +81,31 @@ char	**ft_split_cmd(t_pipex *pipe, int argc, char **argv)
 	return (cmd);
 }
 
-void	ft_exit_cleanup(t_pipex *pipe)
+void	ft_exit_cleanup(t_pipex *pipe, int argc)
 {
-	free(pipe->cmd_paths);
-	free(pipe->cmd_args);
+	int		i;
+	int		j;
+
+	i = 0;
+	while (pipe->)
+	{
+		close(pipe->pipes[i][1]);
+		close(pipe->pipes[i][0]);
+		close(pipe->pipes[i]);
+		i++;
+	}
+	j = 0;
+	while (pipe->cmd_paths[j] != NULL)
+	{
+		free(pipe->cmd_paths[j]);
+		j++;
+	}
+	i = 0;
+	j = 0;
+	while (pipe->cmd_args[i] != NULL)
+	{
+		free(pipe->cmd_args[i][j]);
+		i++;
+		j++;
+	}
 }

@@ -6,11 +6,13 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 13:51:28 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/06/06 14:39:12 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/06/14 17:46:44 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+#define read 1
+#define write 0
 
 static void	ft_check_args(t_pipex *pipe, int argc, char **argv)
 {
@@ -39,28 +41,27 @@ static void	ft_init_pipe(t_pipex *pipe, int argc)
 {
 	int		pipe_count; 
 	int		pipe_index;
-	int		i;
 
 	pipe_count = argc - 3;
 	if (pipe->here_doc == 1)
 		pipe_count += 1;
 	pipe->cmd_count = pipe_count - 1;
-	i = -1;
 	pipe_index = 0;
-	while (pipe_index < pipe_count)
+	while (pipe_index <= pipe_count)
 	{
-		pipe->infile_fd = pipe->pipes[pipe_index][1];
+		pipe->infile_fd = pipe->pipes[pipe_index][read];
 		pipe_index++;
-		pipe->outfile_fd = pipe->pipes[pipe_index][0];
-		if (i == 1)
+		pipe->outfile_fd = pipe->pipes[pipe_index][write];
+		if (pipe_index == 1)
 		{
-			pipe->pipes[pipe_index][1] = pipe->infile_fd;
+			pipe->pipes[pipe_index][read] = pipe->infile_fd;
 		}
-		else if (i == argc)
+		else if (pipe_index == argc)
 		{
-			pipe->pipes[pipe_index][0] = pipe->outfile_fd;
+			pipe->pipes[pipe_index][write] = pipe->outfile_fd;
 		}
 	}
+	printf("%d\n", pipe_index);
 }
 
 static void	ft_check_cmds(t_pipex *pipe, int argc, char **argv, char **envp)
@@ -73,14 +74,13 @@ static void	ft_check_cmds(t_pipex *pipe, int argc, char **argv, char **envp)
 
 	len = 0;
 	cmd = ft_split_cmd(pipe, argc, argv);
-	for (int i = 0; cmd[i] != NULL; i++)
-		printf("%s\n", cmd[i]);
 	i = ft_find_path(envp);
 	split_path = NULL;
 	pipe->cmd_paths = ft_split(envp[i] + 5, ':');
 	i = -1;
 	while (cmd[i++] != NULL)
 	{
+		printf("Hello\n");
 		j = -1;
 		while (pipe->cmd_paths[j++] != NULL)
 			split_path[j] = ft_strjoin3(pipe->cmd_paths[j], "/", cmd[i]);
@@ -112,6 +112,6 @@ int		main(int argc, char **argv, char **envp)
 	ft_init_pipe(&pipe, argc);
 	ft_check_cmds(&pipe, argc, argv, envp);
 	ft_execute();
-	ft_exit_cleanup(&pipe);
+	//ft_exit_cleanup(&pipe);
 	return (0);
 }
