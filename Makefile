@@ -6,12 +6,13 @@
 #    By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/09 09:38:33 by mliyuan           #+#    #+#              #
-#    Updated: 2024/05/29 22:42:53 by mliyuan          ###   ########.fr        #
+#    Updated: 2024/06/18 15:48:59 by mliyuan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS 		=	pipex_utils.c	
 
+FSAN		= 	-fsanitize=address
 OBJS		=	$(SRCS:%.c=%.o)
 LIBFTDIR	=	./libft
 LIBFT		=	$(LIBFTDIR)/libft.a
@@ -24,10 +25,17 @@ COMPILE		=	gcc -Wall -Wextra -Werror
 
 all: $(NAME)
 
+fsan: $(FNAME)
+
 $(NAME):	$(LIBFT) $(OBJS)
 			cp $(LIBFT) $(NAME)
 			ar rcs $(NAME) $(OBJS) $(LIBFT)
 			$(CCFLAGS) pipex.c $(NAME) -o pipex
+
+$(FNAME):	$(LIBFT) $(OBJS)
+			cp $(LIBFT) $(FNAME)
+			ar rcs $(FNAME) $(OBJS) $(LIBFT)
+			$(CCFLAGS) $(FSAN) pipex.c $(FNAME) -o pipex
 
 $(LIBFT):
 			@make -C $(LIBFTDIR) all
@@ -43,4 +51,4 @@ fclean:		clean
 
 re: fclean all
 
-.PHONY		= all clean fclean re libft
+.PHONY		= all clean fclean re libft fsan
