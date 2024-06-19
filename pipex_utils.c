@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 19:06:29 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/06/18 16:45:48 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/06/19 14:53:38 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int		ft_find_path(char **envp)
 	return (-1);
 }
 
-char	**ft_split_cmd(t_pipex *pipe, int argc, char **argv)
+char	**ft_split_cmd(t_pipex *pipes, int argc, char **argv)
 {
 	char	**cmd;
 	char	**tmp;
@@ -60,7 +60,7 @@ char	**ft_split_cmd(t_pipex *pipe, int argc, char **argv)
 	int		len;
 
 	len = 0;
-	if (pipe->here_doc == 1)
+	if (pipes->here_doc == 1)
 		len += 1;
 	i = 2 + len;
 	j = 0;
@@ -80,7 +80,7 @@ char	**ft_split_cmd(t_pipex *pipe, int argc, char **argv)
 	return (cmd);
 }
 
-void	ft_exit_cleanup(t_pipex *pipe)
+void	ft_exit_cleanup(t_pipex *pipes)
 {
 	int		i;
 	int		j;
@@ -91,20 +91,20 @@ void	ft_exit_cleanup(t_pipex *pipe)
 	j = 0;
 	index = 0;
 	str = 0;
-	while (i <= (pipe->cmd_count + pipe->here_doc + 1))
+	while (i <= (pipes->cmd_count + pipes->here_doc + 1))
 	{
-		close(pipe->pipes[i][1]);
-		close(pipe->pipes[i][0]);
+		close(pipes[i].infile_fd);
+		close(pipes[i].outfile_fd);
 		i++;
 	}
-	while (pipe->cmd_paths[j] != NULL)
+	while (pipes->cmd_paths[j] != NULL)
 	{
-		free(pipe->cmd_paths[j]);
+		free(pipes->cmd_paths[j]);
 		j++;
 	}
-	while (pipe->cmd_args[index] != NULL)
+	while (pipes->cmd_args[index] != NULL)
 	{
-		free(pipe->cmd_args[index][str]);
+		free(pipes->cmd_args[index][str]);
 		index++;
 		str++;
 	}

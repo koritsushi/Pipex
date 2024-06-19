@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 13:51:28 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/06/18 17:34:05 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/06/19 15:19:19 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #define read 1
 #define write 0
 
-static void	ft_check_args(t_pipex *pipe, int argc, char **argv)
+static void	ft_check_args(t_pipex *pipes, int argc, char **argv)
 {
 	if (argc < 5)
 	{	
@@ -23,47 +23,52 @@ static void	ft_check_args(t_pipex *pipe, int argc, char **argv)
 	}	
 	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
 	{
-		pipe->here_doc = 1;
+		pipes->here_doc = 1;
 	}
 	else if (open(argv[1], O_RDONLY) == -1)
 	{	
 		printf("pipex: no such file or directory: %s", argv[2]);
-		pipe->is_invalid_infile = 1;
+		pipes->is_invalid_infile = 1;
 	}
-	else
-	{
-		pipe->infile_fd = open(argv[1], O_RDONLY);
-	}
-	pipe->outfile_fd = open(argv[argc], O_RDWR | O_CREAT | O_TRUNC);
 }
 
-static void	ft_init_pipe(t_pipex *pipe, int argc)
+static void	ft_init_pipe(t_pipex *pipes, int argc, char **argv)
 {
 	int		pipe_count; 
 	int		pipe_index;
+	int		pipe_fd[2];
 
 	pipe_count = argc - 3;
-	if (pipe->here_doc == 1)
+	if (pipes->here_doc == 1)
 		pipe_count += 1;
-	pipe->cmd_count = pipe_count - 1;
+	pipes = malloc(sizeof(t_pipex *) * (pipe_count));
+	pipes->cmd_count = pipe_count - 1;
 	pipe_index = 0;
 	while (pipe_index <= pipe_count)
 	{
-		pipe->infile_fd = pipe->pipes[pipe_index][read];
+		if (pipe(pipe_fd) == -1)
+		{
+			perror("pipe");
+			return ;
+		}
+		if (pipe_index == 1 && pipes->is_invalid_infile == 0)
+		{
+			pipes[pipe_index].infile_fd = open(argv[1], O_RDONLY);
+		}
+		else if (pipe_index == argc - 1)
+		{
+			pipes[pipe_index].outfile_fd = open(argv[argc - 1], O_RDWR | O_CREAT | O_TRUNC);
+		}
+		else
+		{
+			pipes[pipe_index].infile_fd = pipe_fd[0];
+			pipes[pipe_index].outfile_fd = pipe_fd[1];
+		}
 		pipe_index++;
-		pipe->outfile_fd = pipe->pipes[pipe_index][write];
-		if (pipe_index == 1)
-		{
-			pipe->pipes[pipe_index][read] = pipe->infile_fd;
-		}
-		else if (pipe_index == argc)
-		{
-			pipe->pipes[pipe_index][write] = pipe->outfile_fd;
-		}
 	}
 }
 
-static void	ft_check_cmds(t_pipex *pipe, int argc, char **argv, char **envp)
+static void	ft_check_cmds(t_pipex *pipes, int argc, char **argv, char **envp)
 {
 	char	**split_path;
 	char	**paths;
@@ -75,7 +80,7 @@ static void	ft_check_cmds(t_pipex *pipe, int argc, char **argv, char **envp)
 
 	len = 0;
 	index = 0;
-	cmd = ft_split_cmd(pipe, argc, argv);
+	cmd = ft_split_cmd(pipes, argc, argv);
 	i = ft_find_path(envp);
 	if (i == -1)
 		return ;
@@ -96,7 +101,7 @@ static void	ft_check_cmds(t_pipex *pipe, int argc, char **argv, char **envp)
 		{
 			if (access(split_path[j], F_OK) == 0)
 			{
-				ft_strlcpy(pipe->cmd_paths[index], split_path[j], ft_strlen(split_path[j]) + 1);
+				ft_strlcpy(pipes->cmd_paths[index], split_path[j], ft_strlen(split_path[j]) + 1);
 				index++;
 				break;
 			} 
@@ -109,10 +114,10 @@ static void	ft_check_cmds(t_pipex *pipe, int argc, char **argv, char **envp)
 		}
 		i++;
 	}
-	pipe->cmd_paths[index] = NULL; 
+	pipes->cmd_paths[index] = NULL; 
 }	
 /*
-static void	ft_execute(t_pipex *pipe, char **envp)
+static void	ft_execute(t_pipex *pipes, char **envp)
 {
 	int	i;
 	int	index;
@@ -141,12 +146,13 @@ static void	ft_execute(t_pipex *pipe, char **envp)
 
 int		main(int argc, char **argv, char **envp)
 {
-	t_pipex pipe;
-	
-	ft_check_args(&pipe, argc, argv);
-	ft_init_pipe(&pipe, argc);
-	ft_check_cmds(&pipe, argc, argv, envp);
-	//ft_execute(&pipe, envp);
-	//ft_exit_cleanup(&pipe);
+	t_pipex *pipes;
+
+	pipes = NULL;
+	ft_check_args(pipes, argc, argv);
+	ft_init_pipe(pipes, argc, argv);
+	ft_check_cmds(pipes, argc, argv, envp);
+	//ft_execute(pipes, envp);
+	ft_exit_cleanup(pipes);
 	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/09 09:38:33 by mliyuan           #+#    #+#              #
-#    Updated: 2024/06/18 15:48:59 by mliyuan          ###   ########.fr        #
+#    Updated: 2024/06/19 15:23:08 by mliyuan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,12 +30,7 @@ fsan: $(FNAME)
 $(NAME):	$(LIBFT) $(OBJS)
 			cp $(LIBFT) $(NAME)
 			ar rcs $(NAME) $(OBJS) $(LIBFT)
-			$(CCFLAGS) pipex.c $(NAME) -o pipex
-
-$(FNAME):	$(LIBFT) $(OBJS)
-			cp $(LIBFT) $(FNAME)
-			ar rcs $(FNAME) $(OBJS) $(LIBFT)
-			$(CCFLAGS) $(FSAN) pipex.c $(FNAME) -o pipex
+			$(CCFLAGS) -g $(FSAN) pipex.c $(NAME) -o pipex
 
 $(LIBFT):
 			@make -C $(LIBFTDIR) all
