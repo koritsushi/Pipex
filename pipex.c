@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 13:51:28 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/06/19 15:19:19 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/06/20 21:58:07 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #define read 1
 #define write 0
 
-static void	ft_check_args(t_pipex *pipes, int argc, char **argv)
+static void	ft_check_args(t_pipex *data, int argc, char **argv)
 {
 	if (argc < 5)
 	{	
@@ -23,26 +23,25 @@ static void	ft_check_args(t_pipex *pipes, int argc, char **argv)
 	}	
 	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
 	{
-		pipes->here_doc = 1;
+		data->here_doc = 1;
 	}
 	else if (open(argv[1], O_RDONLY) == -1)
 	{	
 		printf("pipex: no such file or directory: %s", argv[2]);
-		pipes->is_invalid_infile = 1;
+		data->is_invalid_infile = 1;
 	}
 }
 
-static void	ft_init_pipe(t_pipex *pipes, int argc, char **argv)
+static void	ft_init_pipe(t_pipex *data, int argc, char **argv)
 {
 	int		pipe_count; 
 	int		pipe_index;
 	int		pipe_fd[2];
 
 	pipe_count = argc - 3;
-	if (pipes->here_doc == 1)
+	if (data->here_doc == 1)
 		pipe_count += 1;
-	pipes = malloc(sizeof(t_pipex *) * (pipe_count));
-	pipes->cmd_count = pipe_count - 1;
+	data->cmd_count = pipe_count - 1;
 	pipe_index = 0;
 	while (pipe_index <= pipe_count)
 	{
@@ -51,24 +50,24 @@ static void	ft_init_pipe(t_pipex *pipes, int argc, char **argv)
 			perror("pipe");
 			return ;
 		}
-		if (pipe_index == 1 && pipes->is_invalid_infile == 0)
+		if (pipe_index == 1 && data->is_invalid_infile == 0)
 		{
-			pipes[pipe_index].infile_fd = open(argv[1], O_RDONLY);
+			data->pipes[pipe_index][read]= open(argv[1], O_RDONLY);
 		}
 		else if (pipe_index == argc - 1)
 		{
-			pipes[pipe_index].outfile_fd = open(argv[argc - 1], O_RDWR | O_CREAT | O_TRUNC);
+			data->pipes[pipe_index][write] = open(argv[argc - 1], O_RDWR | O_CREAT | O_TRUNC);
 		}
 		else
 		{
-			pipes[pipe_index].infile_fd = pipe_fd[0];
-			pipes[pipe_index].outfile_fd = pipe_fd[1];
+			data->pipes[pipe_index][read] = pipe_fd[0];
+			data->pipes[pipe_index][write] = pipe_fd[1];
 		}
 		pipe_index++;
 	}
 }
 
-static void	ft_check_cmds(t_pipex *pipes, int argc, char **argv, char **envp)
+static void	ft_check_cmds(t_pipex *data, int argc, char **argv, char **envp)
 {
 	char	**split_path;
 	char	**paths;
@@ -80,19 +79,19 @@ static void	ft_check_cmds(t_pipex *pipes, int argc, char **argv, char **envp)
 
 	len = 0;
 	index = 0;
-	cmd = ft_split_cmd(pipes, argc, argv);
+	cmd = ft_split_cmd(data, argc, argv);
 	i = ft_find_path(envp);
 	if (i == -1)
 		return ;
 	paths = ft_split(envp[i] + 5, ':');
 	while (paths[len++] != NULL);
-	split_path = malloc(sizeof(char *) * (len + 1));
+	split_path = malloc(sizeof(char **) * (len + 1));
 	i = 0;
 	while (cmd[i] != NULL)
 	{
 		j = -1;
 		while (paths[++j] != NULL)
-			split_path[j] = ft_strjoin3(paths[j], "/", cmd[i]);
+			ft_strjoin3(split_path[j], paths[j], "/", cmd[i]);
 		j = -1;
 		while (split_path[++j] != NULL)
 			len++;
@@ -101,7 +100,7 @@ static void	ft_check_cmds(t_pipex *pipes, int argc, char **argv, char **envp)
 		{
 			if (access(split_path[j], F_OK) == 0)
 			{
-				ft_strlcpy(pipes->cmd_paths[index], split_path[j], ft_strlen(split_path[j]) + 1);
+				ft_strlcpy(data->cmd_paths[index], split_path[j], ft_strlen(split_path[j]) + 1);
 				index++;
 				break;
 			} 
@@ -114,10 +113,10 @@ static void	ft_check_cmds(t_pipex *pipes, int argc, char **argv, char **envp)
 		}
 		i++;
 	}
-	pipes->cmd_paths[index] = NULL; 
+	data->cmd_paths[index] = NULL; 
 }	
 /*
-static void	ft_execute(t_pipex *pipes, char **envp)
+static void	ft_execute(t_pipex pipe, char **envp)
 {
 	int	i;
 	int	index;
@@ -146,13 +145,12 @@ static void	ft_execute(t_pipex *pipes, char **envp)
 
 int		main(int argc, char **argv, char **envp)
 {
-	t_pipex *pipes;
+	t_pipex data;
 
-	pipes = NULL;
-	ft_check_args(pipes, argc, argv);
-	ft_init_pipe(pipes, argc, argv);
-	ft_check_cmds(pipes, argc, argv, envp);
-	//ft_execute(pipes, envp);
-	ft_exit_cleanup(pipes);
+	ft_check_args(&data, argc, argv);
+	ft_init_pipe(&data, argc, argv);
+	ft_check_cmds(&data, argc, argv, envp);
+	//ft_execute(&data, envp);
+	ft_exit_cleanup(&data);
 	return (0);
 }

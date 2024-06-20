@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 19:06:29 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/06/19 14:53:38 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/06/20 22:51:53 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,24 @@
 
 char	*ft_strjoin3(char const *s1, char const *s2, char const *s3)
 {
-	size_t	i;
-	size_t	j;
-	size_t	k;
-	char	*dst;
+	char 	*dst;
+	int		i;
+	int		j;
+	int		k;
 
-	i = -1;
+	i = 0;
 	j = 0;
 	k = 0;
 	if (s1 == NULL || s2 == NULL || s3 == NULL)
-		return (NULL);
+		return ;
 	dst = malloc(sizeof(char) * (ft_strlen(s1)+ft_strlen(s2)+ft_strlen(s3)+1));
 	if (dst == NULL)
 		return (NULL);
-	while (s1[++i] != '\0')
+	while (s1[i] != '\0')
+	{
 		dst[i] = s1[i];
+		i++;
+	}
 	while (s2[j] != '\0')
 		dst[i++] = s2[j++];
 	while (s3[k] != '\0')
@@ -51,7 +54,7 @@ int		ft_find_path(char **envp)
 	return (-1);
 }
 
-char	**ft_split_cmd(t_pipex *pipes, int argc, char **argv)
+char	**ft_split_cmd(t_pipex *data, int argc, char **argv)
 {
 	char	**cmd;
 	char	**tmp;
@@ -60,7 +63,7 @@ char	**ft_split_cmd(t_pipex *pipes, int argc, char **argv)
 	int		len;
 
 	len = 0;
-	if (pipes->here_doc == 1)
+	if (data->here_doc == 1)
 		len += 1;
 	i = 2 + len;
 	j = 0;
@@ -80,7 +83,7 @@ char	**ft_split_cmd(t_pipex *pipes, int argc, char **argv)
 	return (cmd);
 }
 
-void	ft_exit_cleanup(t_pipex *pipes)
+void	ft_exit_cleanup(t_pipex *data)
 {
 	int		i;
 	int		j;
@@ -91,20 +94,20 @@ void	ft_exit_cleanup(t_pipex *pipes)
 	j = 0;
 	index = 0;
 	str = 0;
-	while (i <= (pipes->cmd_count + pipes->here_doc + 1))
+	while (i <= (data->cmd_count + data->here_doc + 1))
 	{
-		close(pipes[i].infile_fd);
-		close(pipes[i].outfile_fd);
+		close(data->pipes[i][0]);
+		close(data->pipes[i][1]);
 		i++;
 	}
-	while (pipes->cmd_paths[j] != NULL)
+	while (data->cmd_paths[j] != NULL)
 	{
-		free(pipes->cmd_paths[j]);
+		free(data->cmd_paths[j]);
 		j++;
 	}
-	while (pipes->cmd_args[index] != NULL)
+	while (data->cmd_args[index] != NULL)
 	{
-		free(pipes->cmd_args[index][str]);
+		free(data->cmd_args[index][str]);
 		index++;
 		str++;
 	}
