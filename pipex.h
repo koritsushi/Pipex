@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 11:12:21 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/06/20 22:52:13 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/06/21 16:15:19 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,14 @@
 # include "./libft/libft.h"
 # include <unistd.h>
 # include <fcntl.h>
+# include <sys/types.h>
 # include <sys/wait.h>
 # include <errno.h>
 # include <stdio.h>
 # include <stdlib.h>
+# define BUFFER_SIZE 1024
+# define read 1
+# define write 0
 
 typedef struct s_pipex
 {
