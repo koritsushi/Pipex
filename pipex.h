@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 11:12:21 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/06/21 16:15:19 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/06/23 20:35:20 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,5 @@ int		ft_find_path(char **envp);
 char	*ft_strjoin3(char const *s1, char const *s2, char const *s3);
 char	**ft_split_cmd(t_pipex *data, int argc, char **argv);
 void	ft_exit_cleanup(t_pipex *data);
-
+void	error(int error_index);
 #endif

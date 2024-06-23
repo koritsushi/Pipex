@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 11:28:24 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/06/21 16:15:32 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/06/23 20:15:03 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_child_process(t_pipex *data, int index, int argc, char **envp)
 	if (index == 0 && data->is_invalid_infile == 0)
 	{
 		close(data->pipes[index][read]);
-		while ((bytes_read = read(data->infile_fd, buffer, BUFFER_SIZE) > 0)
+		while (bytes_read = read(data->infile_fd, buffer, BUFFER_SIZE) > 0)
 		{
 			if (write(data->pipes[index][write], buffer, bytes_read) != bytes_read)
 			{

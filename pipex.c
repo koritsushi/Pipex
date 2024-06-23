@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 13:51:28 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/06/21 16:15:29 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/06/22 00:14:48 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ static void	ft_init_pipe(t_pipex *data, int argc)
 		}
 		else
 		{
-			data->pipes[pipe_index][read] = pipe_fd[0];
-			data->pipes[pipe_index][write] = pipe_fd[1];
+			data->pipes[pipe_index][write] = pipe_fd[write]
+			data->pipes[pipe_index][read] = pipe_fd[read];
 		}
 		pipe_index++;
 	}
