@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 13:51:28 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/06/22 00:14:48 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/06/24 22:31:19 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,8 @@ static void	ft_init_pipe(t_pipex *data, int argc)
 			perror("pipe");
 			return ;
 		}
-		else
-		{
-			data->pipes[pipe_index][write] = pipe_fd[write]
-			data->pipes[pipe_index][read] = pipe_fd[read];
-		}
+		data->pipes[pipe_index][write] = pipe_fd[write]
+		data->pipes[pipe_index][read] = pipe_fd[read];
 		pipe_index++;
 	}
 }
@@ -118,11 +115,13 @@ static void	ft_execute(t_pipex *data, int argc, char **envp)
 		if (pid == -1)
 			return ;
 		if (pid == 0)
-			ft_child_process();
+			ft_child_process(data, index, argc, envp);
 		index++;
 		data->cmd_count--;
 	}
-	while (wait(NULL)i != -1 || errno != ECHILD);
+	if (data->cmd_count == 0)
+		ft_file_fd(data, index);
+	while (wait(NULL) != -1 || errno != ECHILD);
 }
 
 
@@ -131,8 +130,8 @@ int		main(int argc, char **argv, char **envp)
 	t_pipex data;
 
 	ft_check_args(&data, argc, argv);
-	ft_init_pipe(&data, argc);
 	ft_check_cmds(&data, argc, argv, envp);
+	ft_init_pipe(&data, argc);
 	//ft_execute(&data, argc, nvp);
 	ft_exit_cleanup(&data);
 	return (0);
