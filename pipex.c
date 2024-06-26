@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 13:51:28 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/06/24 22:31:19 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/06/26 11:17:50 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,13 +114,15 @@ static void	ft_execute(t_pipex *data, int argc, char **envp)
 		pid = fork();
 		if (pid == -1)
 			return ;
+		if (index == 0 && data->is_invalid_infile == 0)
+			ft_file_fd(data, index);
 		if (pid == 0)
 			ft_child_process(data, index, argc, envp);
+		if (index == argc - 1)
+			ft_file_fd(data, index);
 		index++;
 		data->cmd_count--;
 	}
-	if (data->cmd_count == 0)
-		ft_file_fd(data, index);
 	while (wait(NULL) != -1 || errno != ECHILD);
 }
 

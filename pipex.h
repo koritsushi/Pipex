@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 11:12:21 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/06/24 18:28:43 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/06/26 14:42:44 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 # define BUFFER_SIZE 1024
-# define read 1
-# define write 0
+# define read 0
+# define write 1
 
 typedef struct s_pipex
 {
