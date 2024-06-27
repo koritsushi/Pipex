@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 11:12:21 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/06/26 14:42:44 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/06/27 15:09:21 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include <errno.h>
 # include <stdio.h>
 # include <stdlib.h>
-# define BUFFER_SIZE 1024
 # define read 0
 # define write 1
 
@@ -40,7 +39,8 @@ int		ft_find_path(char **envp);
 char	*ft_strjoin3(char const *s1, char const *s2, char const *s3);
 char	**ft_split_cmd(t_pipex *data, int argc, char **argv);
 void	ft_exit_cleanup(t_pipex *data);
-void	ft_child_process(t_pipex *data, int index, int argc, char **envp);
-void	ft_file_fd(t_pipex *data, int index);
-void	error(int error_index);
+void	ft_child_process(t_pipex *data, int index, int argc, char **argv, char **envp);
+void	ft_infile_fd(t_pipex *data, int index);
+void	ft_outfile_fd(t_pipex *data, int index);
+//void	error(int error_index);
 #endif

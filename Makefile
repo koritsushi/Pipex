@@ -6,11 +6,11 @@
 #    By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/09 09:38:33 by mliyuan           #+#    #+#              #
-#    Updated: 2024/06/19 15:23:08 by mliyuan          ###   ########.fr        #
+#    Updated: 2024/06/27 15:41:52 by mliyuan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS 		=	pipex_utils.c	
+SRCS 		=	pipex_utils.c pipex_utils2.c
 
 FSAN		= 	-fsanitize=address
 OBJS		=	$(SRCS:%.c=%.o)
@@ -21,11 +21,9 @@ CCFLAGS		=	gcc -Wall -Wextra -Werror
 COMPILE		=	gcc -Wall -Wextra -Werror
 
 %.o:%.c
-		$(COMPILE) -I. -c $< -o $@
+	$(COMPILE) -I. -c $< -o $(<:.c=.o)
 
-all: $(NAME)
-
-fsan: $(FNAME)
+all: 		$(NAME)
 
 $(NAME):	$(LIBFT) $(OBJS)
 			cp $(LIBFT) $(NAME)
@@ -44,6 +42,6 @@ fclean:		clean
 			@rm -rf $(NAME)
 			@rm -rf ./pipex
 
-re: fclean all
+re:			fclean all
 
 .PHONY		= all clean fclean re libft fsan

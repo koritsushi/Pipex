@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 13:51:28 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/06/26 11:17:50 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/06/27 15:07:41 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ static void	ft_init_pipe(t_pipex *data, int argc)
 			perror("pipe");
 			return ;
 		}
-		data->pipes[pipe_index][write] = pipe_fd[write]
 		data->pipes[pipe_index][read] = pipe_fd[read];
+		data->pipes[pipe_index][write] = pipe_fd[write];
 		pipe_index++;
 	}
 }
@@ -81,7 +81,7 @@ static void	ft_check_cmds(t_pipex *data, int argc, char **argv, char **envp)
 	{
 		j = -1;
 		while (paths[++j] != NULL)
-			ft_strjoin3(split_path[j], paths[j], "/", cmd[i]);
+			split_path[j] = ft_strjoin3(paths[j], "/", cmd[i]);
 		j = -1;
 		while (++j < len)
 		{
@@ -103,7 +103,7 @@ static void	ft_check_cmds(t_pipex *data, int argc, char **argv, char **envp)
 	data->cmd_paths[index] = NULL; 
 }	
 
-static void	ft_execute(t_pipex *data, int argc, char **envp)
+static void	ft_execute(t_pipex *data, int argc, char **argv, char **envp)
 {
 	pid_t	pid;
 	int		index;
@@ -114,12 +114,8 @@ static void	ft_execute(t_pipex *data, int argc, char **envp)
 		pid = fork();
 		if (pid == -1)
 			return ;
-		if (index == 0 && data->is_invalid_infile == 0)
-			ft_file_fd(data, index);
 		if (pid == 0)
-			ft_child_process(data, index, argc, envp);
-		if (index == argc - 1)
-			ft_file_fd(data, index);
+			ft_child_process(data, index, argc, argv, envp);
 		index++;
 		data->cmd_count--;
 	}
@@ -134,7 +130,7 @@ int		main(int argc, char **argv, char **envp)
 	ft_check_args(&data, argc, argv);
 	ft_check_cmds(&data, argc, argv, envp);
 	ft_init_pipe(&data, argc);
-	//ft_execute(&data, argc, nvp);
+	ft_execute(&data, argc, argv, envp);
 	ft_exit_cleanup(&data);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 19:06:29 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/06/20 22:51:53 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/06/27 11:38:29 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_strjoin3(char const *s1, char const *s2, char const *s3)
 	j = 0;
 	k = 0;
 	if (s1 == NULL || s2 == NULL || s3 == NULL)
-		return ;
+		return (NULL);
 	dst = malloc(sizeof(char) * (ft_strlen(s1)+ft_strlen(s2)+ft_strlen(s3)+1));
 	if (dst == NULL)
 		return (NULL);
@@ -94,12 +94,6 @@ void	ft_exit_cleanup(t_pipex *data)
 	j = 0;
 	index = 0;
 	str = 0;
-	while (i <= (data->cmd_count + data->here_doc + 1))
-	{
-		close(data->pipes[i][0]);
-		close(data->pipes[i][1]);
-		i++;
-	}
 	while (data->cmd_paths[j] != NULL)
 	{
 		free(data->cmd_paths[j]);
