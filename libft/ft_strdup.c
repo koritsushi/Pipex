@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 11:34:18 by mliyuan           #+#    #+#             */
-/*   Updated: 2023/12/20 12:17:35 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/06/28 18:15:46 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_strdup(const char *s)
 	char	*cpy;
 
 	i = 0;
-	cpy = malloc(ft_strlen(s) + 1);
+	cpy = malloc(sizeof(char) + ft_strlen(s) + 1);
 	if (cpy == NULL)
 	{
 		return (NULL);

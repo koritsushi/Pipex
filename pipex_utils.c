@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 19:06:29 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/06/27 11:38:29 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/06/28 16:37:51 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,23 @@
 
 char	*ft_strjoin3(char const *s1, char const *s2, char const *s3)
 {
-	char 	*dst;
+	char	*dst;
+	int		len;
 	int		i;
 	int		j;
 	int		k;
 
-	i = 0;
+	i = -1;
 	j = 0;
 	k = 0;
 	if (s1 == NULL || s2 == NULL || s3 == NULL)
 		return (NULL);
-	dst = malloc(sizeof(char) * (ft_strlen(s1)+ft_strlen(s2)+ft_strlen(s3)+1));
+	len = ft_strlen(s1) + ft_strlen(s2) + ft_strlen(s3);
+	dst = malloc(sizeof(char) * (len + 1));
 	if (dst == NULL)
 		return (NULL);
-	while (s1[i] != '\0')
-	{
+	while (s1[++i] != '\0')
 		dst[i] = s1[i];
-		i++;
-	}
 	while (s2[j] != '\0')
 		dst[i++] = s2[j++];
 	while (s3[k] != '\0')
@@ -40,7 +39,7 @@ char	*ft_strjoin3(char const *s1, char const *s2, char const *s3)
 	return (dst);
 }
 
-int		ft_find_path(char **envp)
+int	ft_find_path(char **envp)
 {
 	int	i;
 
@@ -86,23 +85,27 @@ char	**ft_split_cmd(t_pipex *data, int argc, char **argv)
 void	ft_exit_cleanup(t_pipex *data)
 {
 	int		i;
-	int		j;
 	int		index;
-	int		str;
 
 	i = 0;
-	j = 0;
 	index = 0;
-	str = 0;
-	while (data->cmd_paths[j] != NULL)
+	while (data->cmd_paths[i] != NULL)
 	{
-		free(data->cmd_paths[j]);
-		j++;
+		free(data->cmd_paths[i]);
+		i++;
 	}
 	while (data->cmd_args[index] != NULL)
 	{
-		free(data->cmd_args[index][str]);
+		free(data->cmd_args[index]);
 		index++;
-		str++;
 	}
+}
+
+void	ft_init_data(t_pipex *data)
+{
+	data->infile_fd = 0;
+	data->outfile_fd = 0;
+	data->here_doc = 0;
+	data->is_invalid_infile = 0;
+	data->cmd_count = 0;
 }
