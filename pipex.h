@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 11:12:21 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/06/28 19:00:40 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/07/01 22:27:27 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,27 @@ typedef struct s_pipex
 	int		here_doc;
 	int		is_invalid_infile;
 	char	**cmd_paths;
-	char	**cmd_args;
+	char	***cmd_args;
 	int		cmd_count;
 }			t_pipex;
 
 //pipex_utils.c
-int		ft_find_path(char **envp);
+char	**ft_get_path(char **envp);
 char	*ft_strjoin3(char const *s1, char const *s2, char const *s3);
 char	**ft_split_cmd(t_pipex *data, int argc, char **argv);
 void	ft_exit_cleanup(t_pipex *data);
 void	ft_init_data(t_pipex *data);
 
 //pipex_utils2.c
+int		ft_strlen_arr(char **str);
+void	ft_cmds_access(t_pipex *data, int index, char **split_path, char *cmd);
+void	ft_get_cmd_path(t_pipex *data, char **cmd, char **paths, int len);
+char	**ft_get_args_cmd(t_pipex *data, int argc, char **argv);
+void	ft_split_args_cmd(t_pipex *data, char **arg);
+
+//execute.c
 void	ft_child_process(t_pipex *data, int index, int cmd, char **envp);
-void	ft_infile_fd(t_pipex *data, int index);
-void	ft_outfile_fd(t_pipex *data, int index);
-//void	error(int error_index);
+
+//error.c
+void	ft_error(char *error_code);
 #endif

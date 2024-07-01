@@ -6,11 +6,11 @@
 #    By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/09 09:38:33 by mliyuan           #+#    #+#              #
-#    Updated: 2024/06/28 18:49:55 by mliyuan          ###   ########.fr        #
+#    Updated: 2024/07/01 22:30:59 by mliyuan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS 		=	pipex_utils.c pipex_utils2.c
+SRCS 		=	pipex_utils.c pipex_utils2.c execute.c error.c
 
 FSAN		= 	-fsanitize=address
 OBJS		=	$(SRCS:%.c=%.o)

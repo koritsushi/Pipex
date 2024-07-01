@@ -12,7 +12,8 @@
 
 #include "pipex.h"
 
-void	error(int error_index)
+void	ft_error(char *error_code)
 {
-
+	perror(error_code);
+	exit(1);
 }

@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 19:06:29 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/06/28 16:37:51 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/07/01 17:09:17 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,24 @@ char	*ft_strjoin3(char const *s1, char const *s2, char const *s3)
 	return (dst);
 }
 
-int	ft_find_path(char **envp)
+char	**ft_get_path(char **envp)
 {
 	int	i;
-
+	char **path;
+	
 	i = 0;
 	while (envp[i] != NULL)
 	{
 		if (ft_strncmp(envp[i], "PATH=", 4) == 0)
-			return (i);
+			break ;
 		i++;
 	}
-	return (-1);
+	if (envp[i] == NULL)
+		ft_error("./pipex: path error!");
+	path = ft_split(envp[i] + 5, ':');
+	if (path == NULL)
+		ft_error("./pipex: split error!");
+	return (path);
 }
 
 char	**ft_split_cmd(t_pipex *data, int argc, char **argv)
