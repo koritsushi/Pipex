@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 23:41:57 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/06/30 23:41:57 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/07/03 18:00:05 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void	ft_child_process(t_pipex *data, int index, int cmd, char **envp)
 	}
 	else
 	{
-		dup2(data->pipes[index - 1][read], STDIN_FILENO);
-		close(data->pipes[index][write]);
-		fprintf(stderr, " dup read and");
+		dup2(data->pipes[index][write], STDOUT_FILENO);
+		close(data->pipes[index][read]);
+		fprintf(stderr, " dup write and");
 	}
 	if (index == data->cmd_count)
 	{
@@ -36,9 +36,9 @@ void	ft_child_process(t_pipex *data, int index, int cmd, char **envp)
 	}
 	else
 	{
-		dup2(data->pipes[index][write], STDOUT_FILENO);
-		close(data->pipes[index - 1][read]);
-		fprintf(stderr, " dup write\n");
+		dup2(data->pipes[index][read], STDIN_FILENO);
+		close(data->pipes[index][write]);
+		fprintf(stderr, " dup read\n");
 	}
 	if (execve(data->cmd_paths[cmd], data->cmd_args[cmd], envp) == -1)
 	{

@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 13:51:28 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/07/01 22:28:29 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/07/03 19:06:31 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static void	ft_init_pipe(t_pipex *data, int argc)
 		data->pipes[pipe_index][read] = pipe_fd[read];
 		data->pipes[pipe_index][write] = pipe_fd[write];
 		pipe_index++;
+		printf("%d\n", pipe_index);
 	}
 }
 
@@ -75,9 +76,11 @@ static void	ft_check_cmds(t_pipex *data, int argc, char **argv, char **envp)
 static void	ft_execute(t_pipex *data, char **envp)
 {
 	pid_t	pid;
+	int		status;
 	int		index;
 	int		cmd;
 
+	status = 0;
 	index = 0;
 	cmd = 2;
 	while (data->cmd_count > 0)
@@ -91,10 +94,8 @@ static void	ft_execute(t_pipex *data, char **envp)
 		index++;
 		data->cmd_count--;
 	}
-	while (wait(NULL) != -1 || errno != ECHILD)
-	{
-		;
-	}
+	while (wait(&status) > 0)
+		ft_printf("Child process exited");
 }
 
 int	main(int argc, char **argv, char **envp)
