@@ -12,37 +12,54 @@
 
 #include "pipex.h"
 
-void	ft_child_process(t_pipex *data, int index, int cmd, char **envp)
+void	ft_parent_process(t_pipex *data, int index)
 {
-	fprintf(stderr, "index: %d data->cmd_paths[index]: %s\n", index, data->cmd_paths[index]);
-	fprintf(stderr, "index: %d ", index);
-	if (index == 0 && data->is_invalid_infile == 0)
+	if (index == 0)
 	{
-		dup2(data->infile_fd, STDIN_FILENO);
+		close(data->pipes[index][write]);
 		close(data->infile_fd);
-		fprintf(stderr, " dup infile and");
+	}
+	else if (index == data->cmd_count)
+	{
+		close(data->pipes[index - 1][write]);
+		close(data->outfile_fd);
 	}
 	else
 	{
+		close(data->pipes[index - 1][read]);
+		close(data->pipes[index][write]);
+	}
+}
+
+void	ft_child_process(t_pipex *data, int index, char **envp)
+{
+	if (index == 0)
+	{
+		close(data->pipes[index][read]);
+		if (data->is_invalid_infile == 1)
+			dup2(data->infile_fd, STDIN_FILENO);
+		dup2(data->pipes[index][write], STDOUT_FILENO);
+		close(data->pipes[index][write]);
+		close(data->infile_fd);
+	}
+	else if (index == data->cmd_count + 1)
+	{
+		close(data->pipes[index - 1][write]);
+		dup2(data->pipes[index - 1][read], STDIN_FILENO);
+		dup2(data->outfile_fd, STDOUT_FILENO);
+		close(data->pipes[index - 1][read]);
+		close(data->outfile_fd);
+	}
+	else
+	{
+		close(data->pipes[index - 1][write]);
+		dup2(data->pipes[index - 1][read], STDIN_FILENO);
 		dup2(data->pipes[index][write], STDOUT_FILENO);
 		close(data->pipes[index][read]);
-		fprintf(stderr, " dup write and");
 	}
-	if (index == data->cmd_count)
+	if (execve(data->cmd_paths[index], data->cmd_args[index], envp) == -1)
 	{
-		dup2(data->outfile_fd, STDOUT_FILENO);
-		close(data->outfile_fd);
-		fprintf(stderr, " dup outfile\n");
-	}
-	else
-	{
-		dup2(data->pipes[index][read], STDIN_FILENO);
-		close(data->pipes[index][write]);
-		fprintf(stderr, " dup read\n");
-	}
-	if (execve(data->cmd_paths[cmd], data->cmd_args[cmd], envp) == -1)
-	{
-		fprintf(stderr, "./pipex: execve error! command: %s.\n", data->cmd_paths[cmd]);
+		fprintf(stderr, "./pipex: execve error! command: %s.\n", data->cmd_paths[index]);
 		exit(1);
 	}
 }

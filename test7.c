@@ -13,6 +13,7 @@ int main(void)
 	int	infile;
 	int	outfile;
 	int	i;
+	int	max;
 	int index;
 
     if (pipe (fd1) < 0 || pipe (fd2) < 0) { /* open both pipes */
@@ -21,7 +22,8 @@ int main(void)
 	infile = open("exec.c", O_RDONLY, 0777);
 	outfile = open("out", O_RDWR | O_CREAT | O_TRUNC, 0777);
 	i = 0;
-	while (i < 2)
+	max = 2;
+	while (i < max)
 	{
     	if ((pid = fork ()) == -1) {
         	fprintf (stderr, "fork 1 failed\n");
@@ -31,7 +33,7 @@ int main(void)
     	if (pid == 0) {
 			 /* first child */ 
         	if (i == 0) {
-				char	*arg1[] = {"wc", NULL};
+				char	*arg1[] = {"ls", NULL};
 				 /* dup write-end of 1st */
 				close(fd1[0]);
 				dup2(infile, STDIN_FILENO);
@@ -42,11 +44,11 @@ int main(void)
 				close(infile);
 
         		fprintf (stderr, "Exec 1 executing now\n");
-        		if (execve("/usr/bin/wc", arg1, NULL) == -1)
+        		if (execve("/bin/ls", arg1, NULL) == -1)
         			fprintf (stderr, "Exec 1 failed\n");
 				exit(1);
-    		} else {
-				char	*arg2[] = {"ls", NULL};
+    		} else if (i == max - 1) {
+				char	*arg2[] = {"wc", NULL};
 				close(fd1[1]);
 				dup2(fd1[0], STDIN_FILENO);    /* dup read-end of 1st  */
         		dup2(outfile, STDOUT_FILENO);   /* dup write-end of 2nd */
@@ -56,7 +58,7 @@ int main(void)
 				close(outfile);
 
         		fprintf (stderr, "Exec 2 executing now\n");
-        		if (execve ("/bin/ls", arg2, NULL) == -1)
+        		if (execve ("/usr/bin/wc", arg2, NULL) == -1)
         			fprintf (stderr, "Exec 2 failed\n");
 				exit(1);
 			}

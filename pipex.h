@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 11:12:21 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/07/01 22:27:27 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/07/10 10:33:51 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ char	**ft_get_args_cmd(t_pipex *data, int argc, char **argv);
 void	ft_split_args_cmd(t_pipex *data, char **arg);
 
 //execute.c
-void	ft_child_process(t_pipex *data, int index, int cmd, char **envp);
+void	ft_parent_process(t_pipex *data, int index);
+void	ft_child_process(t_pipex *data, int index, char **envp);
 
 //error.c
 void	ft_error(char *error_code);
