@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 13:51:28 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/07/10 15:38:13 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/07/17 16:47:19 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	ft_check_args(t_pipex *data, int argc, char **argv)
 		ft_error("./pipex: open() error!");
 }
 
-/*static void	ft_check_cmds(t_pipex *data, int argc, char **argv, char **envp)
+static void	ft_check_cmds(t_pipex *data, int argc, char **argv, char **envp)
 {
 	char	**paths;
 	char	**cmd;
@@ -49,7 +49,7 @@ static void	ft_check_args(t_pipex *data, int argc, char **argv)
 	ft_get_cmd_path(data, cmd, paths, len);
 	arg = ft_get_args_cmd(data, argc, argv);
 	ft_split_args_cmd(data, arg);
-}*/
+}
 
 static void	ft_init_pipe(t_pipex *data, int argc)
 {
@@ -108,9 +108,9 @@ int	main(int argc, char **argv)
 
 	ft_init_data(&data);
 	ft_check_args(&data, argc, argv);
-	//ft_check_cmds(&data, argc, argv, envp);
+	ft_check_cmds(&data, argc, argv, envp);
 	ft_init_pipe(&data, argc);
-	//ft_execute(&data, envp);
+	ft_execute(&data, envp);
 	//ft_exit_cleanup(&data);
 	return (0);
 }

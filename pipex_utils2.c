@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 11:28:24 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/07/01 22:27:37 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/07/17 16:55:28 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	ft_cmds_access(t_pipex *data, int index, char **split_path, char *cmd)
 
 	i = -1;
 	len = ft_strlen_arr(split_path);
+	if (len == -1)
+		exit(1);
 	while (++i < len)
 	{
 		if (access(split_path[i], F_OK) == 0)
