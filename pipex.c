@@ -46,9 +46,9 @@ static void	ft_check_cmds(t_pipex *data, int argc, char **argv, char **envp)
 	cmd = ft_split_cmd(data, argc, argv);
 	paths = ft_get_path(envp);
 	len = ft_strlen_arr(paths);
-	ft_get_cmd_path(data, cmd, paths, len);
-	arg = ft_get_args_cmd(data, argc, argv);
-	ft_split_args_cmd(data, arg);
+	//ft_get_cmd_path(data, cmd, paths, len);
+	//arg = ft_get_args_cmd(data, argc, argv);
+	//ft_split_args_cmd(data, arg);
 }
 
 static void	ft_init_pipe(t_pipex *data, int argc)
@@ -102,7 +102,7 @@ static void	ft_execute(t_pipex *data, char **envp)
 		ft_printf("Child process exited, status: %d\n", status);
 }
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **envp)
 {
 	t_pipex	data;
 
