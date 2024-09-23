@@ -36,7 +36,7 @@ void	ft_child_process(t_pipex *data, int index, char **envp)
 	if (index == 0)
 	{
 		close(data->pipes[index][read]);
-		if (data->is_invalid_infile == 1)
+		if (data->is_invalid_infile == 0)
 			dup2(data->infile_fd, STDIN_FILENO);
 		dup2(data->pipes[index][write], STDOUT_FILENO);
 		close(data->pipes[index][write]);

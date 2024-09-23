@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 13:51:28 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/07/17 16:47:19 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/08/28 16:35:55 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static void	ft_check_args(t_pipex *data, int argc, char **argv)
 		ft_error("./pipex: open() error!");
 }
 
+/*
 static void	ft_check_cmds(t_pipex *data, int argc, char **argv, char **envp)
 {
 	char	**paths;
@@ -46,10 +47,11 @@ static void	ft_check_cmds(t_pipex *data, int argc, char **argv, char **envp)
 	cmd = ft_split_cmd(data, argc, argv);
 	paths = ft_get_path(envp);
 	len = ft_strlen_arr(paths);
-	//ft_get_cmd_path(data, cmd, paths, len);
-	//arg = ft_get_args_cmd(data, argc, argv);
-	//ft_split_args_cmd(data, arg);
+	ft_get_cmd_path(data, cmd, paths, len);
+	arg = ft_get_args_cmd(data, argc, argv);
+	ft_split_args_cmd(data, arg);
 }
+*/
 
 static void	ft_init_pipe(t_pipex *data, int argc)
 {
@@ -62,7 +64,6 @@ static void	ft_init_pipe(t_pipex *data, int argc)
 	if (data->here_doc == 1)
 		pipe_count += 1;
 	pipe_index = 0;
-	printf("hello");
 	while (pipe_index <= pipe_count)
 	{
 		if (pipe(pipe_fd) == -1)
@@ -70,7 +71,6 @@ static void	ft_init_pipe(t_pipex *data, int argc)
 		data->pipes[pipe_index][read] = pipe_fd[read];
 		data->pipes[pipe_index][write] = pipe_fd[write];
 		pipe_index++;
-		printf("%d\n", pipe_index);
 	}
 }
 
@@ -108,7 +108,7 @@ int	main(int argc, char **argv, char **envp)
 
 	ft_init_data(&data);
 	ft_check_args(&data, argc, argv);
-	ft_check_cmds(&data, argc, argv, envp);
+	//ft_check_cmds(&data, argc, argv, envp);
 	ft_init_pipe(&data, argc);
 	ft_execute(&data, envp);
 	//ft_exit_cleanup(&data);
