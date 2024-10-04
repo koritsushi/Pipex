@@ -63,7 +63,7 @@ void	ft_execute(t_pipex *data, char *cmd_paths, char **cmd_args, char **envp)
 {
 	if (execve(cmd_paths, cmd_args, envp) == -1)
 	{
-		fprintf(stderr, "./pipex: execve() error! command: %s\n", cmd_paths);
+		write(2, "./pipex: execve() error!\n", 26);
 		ft_exit_cleanup(data);
 		exit(1);
 	}
