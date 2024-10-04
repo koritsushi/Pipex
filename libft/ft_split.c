@@ -42,15 +42,15 @@ static void	ft_allocstr(char **sp, char const *s, char sep)
 	while (*tmp)
 	{
 		while (*s == sep)
-			++s;
+			s++;
 		tmp = s;
 		while (*tmp && *tmp != sep)
-			++tmp;
+			tmp++;
 		if (*tmp == sep || tmp > s)
 		{
 			*tab_sp = ft_substr(s, 0, tmp - s);
 			s = tmp;
-			++tab_sp;
+			tab_sp++;
 		}
 	}
 	*tab_sp = NULL;
@@ -65,7 +65,7 @@ char	**ft_split(char const *s, char c)
 	if (s == NULL)
 		return (NULL);
 	word_count = ft_wordcounts((char *) s, c);
-	str = malloc(sizeof(char **) * (word_count + 1));
+	str = malloc(sizeof(char *) * (word_count + 1));
 	if (str == NULL)
 		return (NULL);
 	ft_allocstr(str, (char *)s, c);

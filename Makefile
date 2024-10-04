@@ -10,15 +10,15 @@
 #                                                                              #
 # **************************************************************************** #
 
-SRCS 		=	pipex_utils.c pipex_utils2.c execute.c error.c
+SRCS 		=	pipex_utils.c pipex_utils2.c process.c
 
 FSAN		= 	-fsanitize=address
 OBJS		=	$(SRCS:%.c=%.o)
 LIBFTDIR	=	./libft
 LIBFT		=	$(LIBFTDIR)/libft.a
 NAME		=	libft.a
-CCFLAGS		=	gcc -Wall -Wextra -Werror
-COMPILE		=	gcc -Wall -Wextra -Werror
+CCFLAGS		=	gcc -Wall -Wextra -Werror -ggdb3
+COMPILE		=	gcc -Wall -Wextra -Werror -ggdb3
 
 %.o:%.c
 	$(COMPILE) -I. -c $< -o $(<:.c=.o)

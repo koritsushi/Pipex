@@ -12,95 +12,114 @@
 
 #include "pipex.h"
 
-int	ft_strlen_arr(char **str)
+char	**ft_get_path(char **envp)
 {
-	int	len;
+	int		i;
+	char	**path;
 
-	if (str == NULL)
-		return (-1);
-	len = 0;
-	while (str[len] != NULL)
-		len++;
-	return (len);
-}
-
-void	ft_cmds_access(t_pipex *data, int index, char **split_path, char *cmd)
-{
-	int	i;
-	int	len;
-
-	i = -1;
-	len = ft_strlen_arr(split_path);
-	if (len == -1)
-		exit(1);
-	while (++i < len)
+	i = 0;
+	path = NULL;
+	while (envp[i] != NULL)
 	{
-		if (access(split_path[i], F_OK) == 0)
+		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
 		{
-			data->cmd_paths[index] = split_path[i];
+			path = ft_split(envp[i] + 5, ':');
 			break ;
 		}
-		else if (i == len)
-		{
-			ft_printf("pipex: command does not exist: %s", cmd);
-			(free(split_path), exit(EXIT_FAILURE));
-		}
-	}
-}
-
-void	ft_get_cmd_path(t_pipex *data, char **cmd, char **paths, int len)
-{
-	char	**split_path;
-	int		index;
-	int		i;
-	int		j;
-
-	split_path = malloc(sizeof(char *) * (len + 1));
-	if (split_path == NULL)
-		ft_error("./pipex: malloc() error!");
-	data->cmd_paths = malloc(sizeof(char *) * (data->cmd_count + 1));
-	if (data->cmd_paths == NULL)
-		ft_error("./pipex: malloc() error!");
-	i = 0;
-	index = 0;
-	while (cmd[i] != NULL && i - 1 <= data->cmd_count)
-	{
-		j = -1;
-		while (paths[++j] != NULL)
-			split_path[j] = ft_strjoin3(paths[j], "/", cmd[i]);
-		ft_cmds_access(data, index, split_path, cmd[i]);
-		index++;
 		i++;
 	}
-	data->cmd_paths[i] = NULL;
+	if (path == NULL)
+	{
+		ft_free(path);
+		ft_error("./pipex: path not found!");
+	}
+	path = ft_format_path(path, "/");
+	return (path);
 }
 
-char	**ft_get_args_cmd(t_pipex *data, int argc, char **argv)
+char	**ft_format_path(char **path, char *format)
 {
-	int		cmd_index;
-	int		argv_index;
-	char	**arg;
+	int		i;
+	char	**format_path;
 
-	cmd_index = 0;
-	argv_index = 2;
-	arg = malloc(sizeof(char *) * (data->cmd_count + 1));
-	if (arg == NULL)
-		ft_error("./pipex: malloc() error!");
-	while (argv[argv_index] != NULL && argv_index < argc - 1)
-		arg[cmd_index++] = ft_strdup(argv[argv_index++]);
-	arg[cmd_index] = NULL;
-	return (arg);
+	i = 0;
+	while (path[i] != NULL)
+		i++;
+	format_path = malloc(sizeof(char *) * (i + 1));
+	if (format_path == NULL)
+		ft_error("./pipex: malloc() error!\n");
+	i = 0;
+	while (path[i] != NULL)
+	{
+		format_path[i] = ft_strjoin(path[i], format);
+		i++;
+	}
+	format_path[i] = NULL;
+	ft_free(path);
+	return (format_path);
 }
 
-void	ft_split_args_cmd(t_pipex *data, char **arg)
+char	***ft_split_cmd(t_pipex *data, char **argv)
 {
-	int	index;
+	char	***cmd;
+	int		i;
+	int		j;
+	int		len;
 
-	index = 0;
-	data->cmd_args = malloc(sizeof(char **) * (data->cmd_count + 1));
-	if (data->cmd_args == NULL)
-		ft_error("./pipex: malloc() error!");
-	while (arg[index] != NULL)
-		data->cmd_args[index] = ft_split(arg[index], ' ');
-	data->cmd_args[index] = NULL;
+	j = 0;
+	len = 0;
+	if (data->here_doc == 1)
+		len += 1;
+	i = 2 + len;
+	cmd = malloc(sizeof(char **) * (data->cmd_count + 1));
+	if (cmd == NULL)
+		ft_error("./pipex: malloc() error!\n");
+	while (argv[i] != NULL && j < data->cmd_count)
+	{
+		cmd[j] = ft_split(argv[i], ' ');
+		i++;
+		j++;
+	}
+	cmd[j] = NULL;
+	return (cmd);
+}
+
+char	**ft_cmdpath(t_pipex *data, char **path)
+{
+	int		i;
+	int		j;
+	int		end;
+	char	**cmd_paths;
+
+	i = 0;
+	end = 0;
+	while (path[end] != NULL)
+		end++;
+	cmd_paths = malloc(sizeof(char *) * (end + 1));
+	if (cmd_paths == NULL)
+		ft_error("./pipex: malloc() error!\n");
+	while (data->cmd_args[i] != NULL)
+	{
+		j = 0;
+		while (path[j] != NULL)
+		{
+			cmd_paths[i] = ft_strjoin(path[j++], data->cmd_args[i][0]);
+			if (access(cmd_paths[i], F_OK) == 0)
+				break ;
+			free(cmd_paths[i]);
+		}
+		if (j == end)
+			ft_cmdpath_free(data, cmd_paths, path);
+		i++;
+	}
+	cmd_paths[i] = NULL;
+	return (cmd_paths);
+}
+
+void	ft_cmdpath_free(t_pipex *data, char **cmd_paths, char **path)
+{
+	ft_exit_cleanup(data);
+	free(cmd_paths);
+	ft_free(path);
+	ft_error("./pipex: error! command not found!\n");
 }

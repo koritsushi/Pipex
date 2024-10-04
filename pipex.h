@@ -20,8 +20,8 @@
 # include <errno.h>
 # include <stdio.h>
 # include <stdlib.h>
-# define read 0
-# define write 1
+# define READ 0
+# define WRITE 1
 
 typedef struct s_pipex
 {
@@ -36,23 +36,23 @@ typedef struct s_pipex
 }			t_pipex;
 
 //pipex_utils.c
-char	**ft_get_path(char **envp);
-char	*ft_strjoin3(char const *s1, char const *s2, char const *s3);
-char	**ft_split_cmd(t_pipex *data, int argc, char **argv);
-void	ft_exit_cleanup(t_pipex *data);
 void	ft_init_data(t_pipex *data);
+void	ft_free(char **str);
+void	ft_free_arr(char ***str);
+void	ft_exit_cleanup(t_pipex *data);
+void	ft_error(char *error_code);
 
 //pipex_utils2.c
-int		ft_strlen_arr(char **str);
-void	ft_cmds_access(t_pipex *data, int index, char **split_path, char *cmd);
-void	ft_get_cmd_path(t_pipex *data, char **cmd, char **paths, int len);
-char	**ft_get_args_cmd(t_pipex *data, int argc, char **argv);
-void	ft_split_args_cmd(t_pipex *data, char **arg);
+char	**ft_get_path(char **envp);
+char	**ft_format_path(char **path, char *format);
+char	***ft_split_cmd(t_pipex *data, char **argv);
+char	**ft_cmdpath(t_pipex *data, char **path);
+void	ft_cmdpath_free(t_pipex *data, char **cmd_paths, char **path);
 
-//execute.c
+//process.c
 void	ft_parent_process(t_pipex *data, int index);
-void	ft_child_process(t_pipex *data, int index, char **envp);
+void	ft_child_process(t_pipex *data, int index);
+void	\
+ft_execute(t_pipex *data, char *cmd_paths, char **cmd_args, char **envp);
 
-//error.c
-void	ft_error(char *error_code);
 #endif

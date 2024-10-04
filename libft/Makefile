@@ -73,7 +73,7 @@ OBJS		= 		$(MANDATORY:%.c=%.o) 			\
 
 OBJS_BONUS	= 		$(BONUS:%.c=%.o)
 NAME		= 		libft.a
-CC			= 		gcc -Wall -Wextra -Werror
+CC			= 		gcc -Wall -Wextra -Werror -ggdb3
 
 %.o: %.c
 	$(CC) -I. -c $< -o $(<:.c=.o)

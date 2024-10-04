@@ -16,15 +16,14 @@ static void	ft_check_args(t_pipex *data, int argc, char **argv)
 {
 	if (argc < 5)
 	{
-		printf("Error! Usage: ");
-		printf("./pipex (infile) (command1) (command2) (outfile)\n");
+		ft_printf("Usage:./pipex (infile) (command1) (command2) (outfile)\n");
 		exit(1);
 	}
 	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
 		data->here_doc = 1;
 	if (open(argv[1], O_RDONLY) == -1)
 	{
-		printf("pipex: no such file or directory: %s\n", argv[1]);
+		ft_printf("./pipex: no such file or directory: %s\n", argv[1]);
 		data->is_invalid_infile = 1;
 	}
 	else
@@ -33,25 +32,8 @@ static void	ft_check_args(t_pipex *data, int argc, char **argv)
 	}
 	data->outfile_fd = open(argv[argc - 1], O_RDWR | O_CREAT | O_TRUNC, 0777);
 	if (data->outfile_fd == -1)
-		ft_error("./pipex: open() error!");
+		ft_error("./pipex: open() error!\n");
 }
-
-/*
-static void	ft_check_cmds(t_pipex *data, int argc, char **argv, char **envp)
-{
-	char	**paths;
-	char	**cmd;
-	char	**arg;
-	int		len;
-
-	cmd = ft_split_cmd(data, argc, argv);
-	paths = ft_get_path(envp);
-	len = ft_strlen_arr(paths);
-	ft_get_cmd_path(data, cmd, paths, len);
-	arg = ft_get_args_cmd(data, argc, argv);
-	ft_split_args_cmd(data, arg);
-}
-*/
 
 static void	ft_init_pipe(t_pipex *data, int argc)
 {
@@ -64,42 +46,52 @@ static void	ft_init_pipe(t_pipex *data, int argc)
 	if (data->here_doc == 1)
 		pipe_count += 1;
 	pipe_index = 0;
-	while (pipe_index <= pipe_count)
+	while (pipe_index < pipe_count)
 	{
 		if (pipe(pipe_fd) == -1)
-			ft_error("./pipex: pipe() error!");
-		data->pipes[pipe_index][read] = pipe_fd[read];
-		data->pipes[pipe_index][write] = pipe_fd[write];
+			ft_error("./pipex: pipe() error!\n");
+		data->pipes[pipe_index][READ] = pipe_fd[READ];
+		data->pipes[pipe_index][WRITE] = pipe_fd[WRITE];
 		pipe_index++;
 	}
 }
 
+static void	ft_check_cmds(t_pipex *data, char **argv, char **envp)
+{
+	char	**path;
 
-static void	ft_execute(t_pipex *data, char **envp)
+	path = ft_get_path(envp);
+	data->cmd_args = ft_split_cmd(data, argv);
+	data->cmd_paths = ft_cmdpath(data, path);
+	ft_free(path);
+}
+
+static void	ft_process(t_pipex *data, char **envp)
 {
 	pid_t	pid;
 	int		status;
-	int		index;
+	int		i;
 
 	status = 0;
-	index = 0;
-	while (index < data->cmd_count + 1)
+	i = 0;
+	while (i < data->cmd_count)
 	{
 		pid = fork();
 		if (pid == -1)
-			ft_error("./pipex: fork() error!");
+			ft_error("./pipex: fork() error!\n");
 		if (pid == 0)
 		{
-			ft_child_process(data, index, envp);
+			ft_child_process(data, i);
+			ft_execute(data, data->cmd_paths[i], data->cmd_args[i], envp);
 		}
-		else 
+		else
 		{
-			ft_parent_process(data, index);
+			ft_parent_process(data, i);
 		}
-		index++;
+		i++;
 	}
 	while (wait(&status) > 0)
-		ft_printf("Child process exited, status: %d\n", status);
+		;
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -108,9 +100,9 @@ int	main(int argc, char **argv, char **envp)
 
 	ft_init_data(&data);
 	ft_check_args(&data, argc, argv);
-	//ft_check_cmds(&data, argc, argv, envp);
 	ft_init_pipe(&data, argc);
-	ft_execute(&data, envp);
-	//ft_exit_cleanup(&data);
+	ft_check_cmds(&data, argv, envp);
+	ft_process(&data, envp);
+	ft_exit_cleanup(&data);
 	return (0);
 }

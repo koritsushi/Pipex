@@ -16,50 +16,55 @@ void	ft_parent_process(t_pipex *data, int index)
 {
 	if (index == 0)
 	{
-		close(data->pipes[index][write]);
+		close(data->pipes[index][WRITE]);
 		close(data->infile_fd);
 	}
-	else if (index == data->cmd_count)
+	else if (index == data->cmd_count - 1)
 	{
-		close(data->pipes[index - 1][write]);
+		close(data->pipes[index - 1][WRITE]);
 		close(data->outfile_fd);
 	}
 	else
 	{
-		close(data->pipes[index - 1][read]);
-		close(data->pipes[index][write]);
+		close(data->pipes[index - 1][READ]);
+		close(data->pipes[index][WRITE]);
 	}
 }
 
-void	ft_child_process(t_pipex *data, int index, char **envp)
+void	ft_child_process(t_pipex *data, int index)
 {
 	if (index == 0)
 	{
-		close(data->pipes[index][read]);
+		close(data->pipes[index][READ]);
 		if (data->is_invalid_infile == 0)
 			dup2(data->infile_fd, STDIN_FILENO);
-		dup2(data->pipes[index][write], STDOUT_FILENO);
-		close(data->pipes[index][write]);
+		dup2(data->pipes[index][WRITE], STDOUT_FILENO);
+		close(data->pipes[index][WRITE]);
 		close(data->infile_fd);
 	}
-	else if (index == data->cmd_count + 1)
+	else if (index == data->cmd_count - 1)
 	{
-		close(data->pipes[index - 1][write]);
-		dup2(data->pipes[index - 1][read], STDIN_FILENO);
+		close(data->pipes[index - 1][WRITE]);
+		dup2(data->pipes[index - 1][READ], STDIN_FILENO);
 		dup2(data->outfile_fd, STDOUT_FILENO);
-		close(data->pipes[index - 1][read]);
+		close(data->pipes[index - 1][READ]);
 		close(data->outfile_fd);
 	}
 	else
 	{
-		close(data->pipes[index - 1][write]);
-		dup2(data->pipes[index - 1][read], STDIN_FILENO);
-		dup2(data->pipes[index][write], STDOUT_FILENO);
-		close(data->pipes[index][read]);
+		close(data->pipes[index - 1][WRITE]);
+		dup2(data->pipes[index - 1][READ], STDIN_FILENO);
+		dup2(data->pipes[index][WRITE], STDOUT_FILENO);
+		close(data->pipes[index][READ]);
 	}
-	if (execve(data->cmd_paths[index], data->cmd_args[index], envp) == -1)
+}
+
+void	ft_execute(t_pipex *data, char *cmd_paths, char **cmd_args, char **envp)
+{
+	if (execve(cmd_paths, cmd_args, envp) == -1)
 	{
-		fprintf(stderr, "./pipex: execve error! command: %s.\n", data->cmd_paths[index]);
+		fprintf(stderr, "./pipex: execve() error! command: %s\n", cmd_paths);
+		ft_exit_cleanup(data);
 		exit(1);
 	}
 }
