@@ -106,10 +106,10 @@ char	**ft_cmdpath(t_pipex *data, char **path)
 			cmd_paths[i] = ft_strjoin(path[j++], data->cmd_args[i][0]);
 			if (access(cmd_paths[i], F_OK) == 0)
 				break ;
+			if (j == end - 1)
+				ft_cmdpath_free(data, cmd_paths, path);
 			free(cmd_paths[i]);
 		}
-		if (j == end)
-			ft_cmdpath_free(data, cmd_paths, path);
 		i++;
 	}
 	cmd_paths[i] = NULL;
@@ -119,7 +119,7 @@ char	**ft_cmdpath(t_pipex *data, char **path)
 void	ft_cmdpath_free(t_pipex *data, char **cmd_paths, char **path)
 {
 	ft_exit_cleanup(data);
-	free(cmd_paths);
+	ft_free(cmd_paths);
 	ft_free(path);
 	ft_error("./pipex: error! command not found!\n");
 }

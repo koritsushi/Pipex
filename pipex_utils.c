@@ -55,30 +55,22 @@ void	ft_free(char **str)
 
 void	ft_exit_cleanup(t_pipex *data)
 {
-	int		i;
-	int		j;
+	int	i;
 
 	i = 0;
-	j = 0;
-	
 	if (data->cmd_paths != NULL)
 	{
-		while (data->cmd_paths[i] != NULL)
-			free(data->cmd_paths[i++]);
+		ft_free(data->cmd_paths);
 	}
-	i = 0;
 	if (data->cmd_args != NULL)
 	{
 		while (data->cmd_args[i] != NULL)
 		{
-			while (data->cmd_args[i][j] != NULL)
-				free(data->cmd_args[i][j++]);
-			free(data->cmd_args[i]);
+			ft_free(data->cmd_args[i]);
 			i++;
 		}
+		free(data->cmd_args);
 	}
-	free(data->cmd_paths);
-	free(data->cmd_args);
 }
 
 void	ft_error(char *error_code)

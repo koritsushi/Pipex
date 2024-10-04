@@ -23,7 +23,7 @@ static void	ft_check_args(t_pipex *data, int argc, char **argv)
 		data->here_doc = 1;
 	if (open(argv[1], O_RDONLY) == -1)
 	{
-		ft_printf("./pipex: no such file or directory: %s\n", argv[1]);
+		ft_printf("./pipex: file not found!: %s\n", argv[1]);
 		data->is_invalid_infile = 1;
 	}
 	else
