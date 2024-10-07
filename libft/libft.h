@@ -61,7 +61,7 @@ void		ft_putchar_fd(char c, int fd);
 void		ft_putendl_fd(char *s, int fd);
 void		ft_putnbr_fd(int n, int fd);
 
-// main printf function
+// printf function
 int			ft_printf(const char *str, ...);
 
 //helper function
@@ -69,10 +69,10 @@ int			ft_char_helper(va_list args);
 int			ft_str_helper(va_list args);
 int			ft_num_helper(va_list args);
 int			ft_uint_helper(va_list args);
-int 		ft_hexa_upper_helper(va_list args);
-int 		ft_hexa_lower_helper(va_list args);
+int			ft_hexa_upper_helper(va_list args);
+int			ft_hexa_lower_helper(va_list args);
 int			ft_memory_helper(va_list args);
-
+//printf utils function
 int			ft_printchar(const char chr);
 int			ft_printstr(const char *str);
 int			ft_printnum(int num);
@@ -84,7 +84,7 @@ int			ft_printmemory(uintptr_t ptr);
 //gnl function
 typedef struct s_gnl_list
 {
-	char			*content;
+	char				*content;
 	struct s_gnl_list	*next;
 }					t_gnl_list;
 
@@ -95,7 +95,8 @@ char		*return_line(t_gnl_list *lst);
 void		clear_lst(t_gnl_list **lst);
 int			ft_newline(t_gnl_list *lst);
 int			ft_len_newline(t_gnl_list *lst);
-void		dealloc(t_gnl_list **linked_list, t_gnl_list *clean_node, char *buffer);
+void		\
+dealloc(t_gnl_list **linked_list, t_gnl_list *clean_node, char *buffer);
 void		append_str(t_gnl_list *lst, char *str);
 t_gnl_list	*ft_llstlast(t_gnl_list *lst);
 

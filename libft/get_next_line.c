@@ -15,7 +15,7 @@
 char	*get_next_line(int fd)
 {
 	static t_gnl_list		*lst;
-	char				*buffer;
+	char					*buffer;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
@@ -84,9 +84,9 @@ void	clear_lst(t_gnl_list **lst)
 {
 	t_gnl_list	*last_node;
 	t_gnl_list	*clean_node;
-	char	*buffer;
-	int		i;
-	int		j;
+	char		*buffer;
+	int			i;
+	int			j;
 
 	i = 0;
 	j = 0;
