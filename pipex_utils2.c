@@ -91,26 +91,23 @@ char	**ft_cmdpath(t_pipex *data, char **path)
 	int		end;
 	char	**cmd_paths;
 
-	i = 0;
+	i = -1;
 	end = 0;
 	while (path[end] != NULL)
 		end++;
 	cmd_paths = malloc(sizeof(char *) * (end + 1));
-	if (cmd_paths == NULL)
-		ft_error("./pipex: malloc() error!\n");
-	while (data->cmd_args[i] != NULL)
+	while (data->cmd_args[++i] != NULL)
 	{
-		j = 0;
-		while (path[j] != NULL)
+		j = -1;
+		while (path[++j] != NULL)
 		{
-			cmd_paths[i] = ft_strjoin(path[j++], data->cmd_args[i][0]);
+			cmd_paths[i] = ft_strjoin(path[j], data->cmd_args[i][0]);
 			if (access(cmd_paths[i], F_OK) == 0)
 				break ;
 			if (j == end - 1)
 				ft_cmdpath_free(data, cmd_paths, path);
 			free(cmd_paths[i]);
 		}
-		i++;
 	}
 	cmd_paths[i] = NULL;
 	return (cmd_paths);
