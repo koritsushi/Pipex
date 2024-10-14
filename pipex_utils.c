@@ -17,7 +17,6 @@ void	ft_init_data(t_pipex *data)
 	data->infile_fd = 0;
 	data->outfile_fd = 0;
 	data->here_doc = 0;
-	data->is_invalid_infile = 0;
 	data->cmd_count = 0;
 	data->cmd_paths = NULL;
 	data->cmd_args = NULL;
