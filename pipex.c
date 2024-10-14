@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 13:51:28 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/10/07 17:26:05 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/10/14 15:44:56 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,13 @@
 static void	ft_check_args(t_pipex *data, int argc, char **argv)
 {
 	if (argc < 5)
-	{
-		ft_printf("Usage:./pipex (infile) (command1) (command2) (outfile)\n");
-		exit(1);
-	}
+		ft_error("Usage:./pipex (infile) (command1) (command2) (outfile)\n");
 	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
 		data->here_doc = 1;
 	if (open(argv[1], O_RDONLY) == -1)
 	{
-		ft_printf("./pipex: file not found!: %s\n", argv[1]);
-		data->is_invalid_infile = 1;
+		ft_printf("./pipex: %s: No such file or directory!\n", argv[1]);
+		data->infile_fd = open("/dev/null", O_RDONLY);
 	}
 	else
 	{
