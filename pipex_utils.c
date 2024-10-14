@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 19:06:29 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/08/28 16:25:45 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/10/14 15:20:20 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	ft_free_arr(char ***str)
 
 	i = 0;
 	j = 0;
+	if (str == NULL)
+		return ;
 	while (str[i] != NULL)
 	{
 		while (str[i][j] != NULL)
@@ -38,8 +40,7 @@ void	ft_free_arr(char ***str)
 		}
 		i++;
 	}
-	if (str != NULL)
-		free(str);
+	free(str);
 }
 
 void	ft_free(char **str)
@@ -47,10 +48,11 @@ void	ft_free(char **str)
 	int	i;
 
 	i = 0;
+	if (str == NULL)
+		return ;
 	while (str[i] != NULL)
 		free(str[i++]);
-	if (str != NULL)
-		free(str);
+	free(str);
 }
 
 void	ft_exit_cleanup(t_pipex *data)
