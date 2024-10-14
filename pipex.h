@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 11:12:21 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/07/10 10:33:51 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/10/14 16:08:24 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ typedef struct s_pipex
 	int		infile_fd;
 	int		outfile_fd;
 	int		here_doc;
-	int		is_invalid_infile;
 	char	**cmd_paths;
 	char	***cmd_args;
 	int		cmd_count;
@@ -47,7 +46,8 @@ char	**ft_get_path(char **envp);
 char	**ft_format_path(char **path, char *format);
 char	***ft_split_cmd(t_pipex *data, char **argv);
 char	**ft_cmdpath(t_pipex *data, char **path);
-void	ft_cmdpath_free(t_pipex *data, char **cmd_paths, char **path);
+void	\
+ft_cmdpath_free(t_pipex *data, char **cmd_paths, char *cmd_args, char **path);
 
 //process.c
 void	ft_parent_process(t_pipex *data, int index);
