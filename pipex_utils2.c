@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 11:28:24 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/08/28 16:25:10 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/10/14 15:53:38 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,8 @@ char	**ft_cmdpath(t_pipex *data, char **path)
 	end = 0;
 	while (path[end] != NULL)
 		end++;
-	cmd_paths = malloc(sizeof(char *) * (end + 1));
+	cmd_paths = malloc(sizeof(char *) * (data->cmd_count + 1));
+	cmd_paths[data->cmd_count] = NULL;
 	while (data->cmd_args[++i] != NULL)
 	{
 		j = -1;
@@ -105,18 +106,18 @@ char	**ft_cmdpath(t_pipex *data, char **path)
 			if (access(cmd_paths[i], F_OK) == 0)
 				break ;
 			if (j == end - 1)
-				ft_cmdpath_free(data, cmd_paths, path);
+				ft_cmdpath_free(data, cmd_paths, data->cmd_args[i][0], path);
 			free(cmd_paths[i]);
 		}
 	}
-	cmd_paths[i] = NULL;
 	return (cmd_paths);
 }
 
-void	ft_cmdpath_free(t_pipex *data, char **cmd_paths, char **path)
+void	ft_cmdpath_free(t_pipex *data, char **cmd_paths, char *cmd, char **path)
 {
+	ft_printf("./pipex: %s: command not found!\n", cmd);
 	ft_exit_cleanup(data);
 	ft_free(cmd_paths);
 	ft_free(path);
-	ft_error("./pipex: error! command not found!\n");
+	exit(1);
 }
