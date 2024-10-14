@@ -6,7 +6,7 @@
 #    By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/17 15:55:31 by mliyuan           #+#    #+#              #
-#    Updated: 2024/05/27 23:45:20 by mliyuan          ###   ########.fr        #
+#    Updated: 2024/10/14 16:00:11 by mliyuan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,7 +73,7 @@ OBJS		= 		$(MANDATORY:%.c=%.o) 			\
 
 OBJS_BONUS	= 		$(BONUS:%.c=%.o)
 NAME		= 		libft.a
-CC			= 		gcc -Wall -Wextra -Werror -ggdb3
+CC			= 		gcc -Wall -Wextra -Werror
 
 %.o: %.c
 	$(CC) -I. -c $< -o $(<:.c=.o)

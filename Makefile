@@ -6,7 +6,7 @@
 #    By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/09 09:38:33 by mliyuan           #+#    #+#              #
-#    Updated: 2024/07/10 15:03:28 by mliyuan          ###   ########.fr        #
+#    Updated: 2024/10/14 16:07:00 by mliyuan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,8 @@ OBJS		=	$(SRCS:%.c=%.o)
 LIBFTDIR	=	./libft
 LIBFT		=	$(LIBFTDIR)/libft.a
 NAME		=	libft.a
-CCFLAGS		=	gcc -Wall -Wextra -Werror -ggdb3
-COMPILE		=	gcc -Wall -Wextra -Werror -ggdb3
+CCFLAGS		=	gcc -Wall -Wextra -Werror
+COMPILE		=	gcc -Wall -Wextra -Werror
 
 %.o:%.c
 	$(COMPILE) -I. -c $< -o $(<:.c=.o)
