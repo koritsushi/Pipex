@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 11:28:24 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/10/14 15:53:38 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/11/12 21:50:26 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,7 @@ char	**ft_cmdpath(t_pipex *data, char **path)
 	char	**cmd_paths;
 
 	i = -1;
-	end = 0;
-	while (path[end] != NULL)
-		end++;
+	end = ft_str_arr(path);
 	cmd_paths = malloc(sizeof(char *) * (data->cmd_count + 1));
 	cmd_paths[data->cmd_count] = NULL;
 	while (data->cmd_args[++i] != NULL)

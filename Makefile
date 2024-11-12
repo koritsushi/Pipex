@@ -6,29 +6,35 @@
 #    By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/09 09:38:33 by mliyuan           #+#    #+#              #
-#    Updated: 2024/10/14 16:07:00 by mliyuan          ###   ########.fr        #
+#    Updated: 2024/11/12 21:42:48 by mliyuan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS 		=	pipex_utils.c pipex_utils2.c process.c
+SRCS 		=	pipex.c			\
+				process.c		\
+				pipex_utils.c	\
+				pipex_utils2.c	\
+				pipex_utils3.c
 
-FSAN		= 	-fsanitize=address
 OBJS		=	$(SRCS:%.c=%.o)
-LIBFTDIR	=	./libft
-LIBFT		=	$(LIBFTDIR)/libft.a
+LIBFTDIR	=	./libft/
+LIBFT		=	$(LIBFTDIR)libft.a
 NAME		=	libft.a
-CCFLAGS		=	gcc -Wall -Wextra -Werror
-COMPILE		=	gcc -Wall -Wextra -Werror
+PROGRAM		=	pipex
+COMPILE		=	gcc
+CCFLAGS		=	-Wall -Wextra -Werror -g
+DEBUG		=	gddb3
+FSAN		= 	-fsanitize=address
 
 %.o:%.c
-	$(COMPILE) -I. -c $< -o $(<:.c=.o)
+			$(COMPILE) $(CCFLAGS) -I. -c $< -o $(<:.c=.o)
 
 all: 		$(NAME)
 
 $(NAME):	$(LIBFT) $(OBJS)
-			cp $(LIBFT) $(NAME)
+			@cp $(LIBFT) $(NAME)
 			ar rcs $(NAME) $(OBJS) $(LIBFT)
-			$(CCFLAGS) -g pipex.c $(NAME) -o pipex
+			$(COMPILE) $(CCFLAGS) pipex.c $(NAME) -o $(PROGRAM)
 
 $(LIBFT):
 			@make -C $(LIBFTDIR) all
@@ -40,7 +46,7 @@ clean:
 fclean:		clean
 			@make -C $(LIBFTDIR) fclean
 			@rm -rf $(NAME)
-			@rm -rf ./pipex
+			@rm -rf $(PROGRAM)
 
 re:			fclean all
 
