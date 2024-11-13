@@ -14,6 +14,7 @@
 
 void	ft_init_data(t_pipex *data)
 {
+	data->index = 0;
 	data->infile_fd = 0;
 	data->outfile_fd = 0;
 	data->here_doc = 0;
