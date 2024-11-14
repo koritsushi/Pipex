@@ -59,7 +59,7 @@ static void	ft_check_cmds(t_pipex *data, char **argv, char **envp)
 
 	path = ft_get_path(envp);
 	data->cmd_args = ft_split_cmd(data, argv);
-	data->cmd_paths = ft_cmdpath(data, path);
+	ft_cmdpath(data, path);
 	ft_free(path);
 }
 

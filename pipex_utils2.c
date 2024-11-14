@@ -84,38 +84,50 @@ char	***ft_split_cmd(t_pipex *data, char **argv)
 	return (cmd);
 }
 
-char	**ft_cmdpath(t_pipex *data, char **path)
+void	ft_cmdpath(t_pipex *data, char **path)
 {
 	int		i;
 	int		j;
 	int		end;
-	char	**cmd_paths;
 
 	i = -1;
 	end = ft_str_arr(path);
-	cmd_paths = malloc(sizeof(char *) * (data->cmd_count + 1));
-	cmd_paths[data->cmd_count] = NULL;
+	data->cmd_paths = malloc(sizeof(char *) * (data->cmd_count + 1));
+	data->cmd_paths[data->cmd_count] = NULL;
 	while (data->cmd_args[++i] != NULL)
 	{
 		j = -1;
 		while (path[++j] != NULL)
 		{
-			cmd_paths[i] = ft_strjoin(path[j], data->cmd_args[i][0]);
-			if (access(cmd_paths[i], F_OK) == 0)
+			data->cmd_paths[i] = ft_strjoin(path[j], data->cmd_args[i][0]);
+			if (access(data->cmd_paths[i], F_OK) == 0)
 				break ;
 			if (j == end - 1)
-				ft_cmdpath_free(data, cmd_paths, data->cmd_args[i][0], path);
-			free(cmd_paths[i]);
+			{
+				data->index = i;
+				ft_cmdpath_error(data, data->cmd_args[i][0], path);
+			}
+			free(data->cmd_paths[i]);
 		}
 	}
-	return (cmd_paths);
 }
 
-void	ft_cmdpath_free(t_pipex *data, char **cmd_paths, char *cmd, char **path)
+void	ft_cmdpath_error(t_pipex *data, char *cmd, char **path)
 {
+	int	i;
+
+	i = 0;
 	ft_printf("./pipex: %s: command not found!\n", cmd);
-	ft_exit_cleanup(data);
-	ft_free(cmd_paths);
+	if (data->cmd_args != NULL)
+	{
+		while (data->cmd_args[i] != NULL)
+		{
+			ft_free(data->cmd_args[i]);
+			i++;
+		}
+		free(data->cmd_args);
+	}
+	ft_cmdpath_free(data->cmd_paths, data->index);
 	ft_free(path);
 	exit(1);
 }
