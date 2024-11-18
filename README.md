@@ -25,16 +25,16 @@ if the command join with path and check with access() succeed it will return 0,
 else if access did not detect path or command then the function will return -1.
 
 - reference
-https://42-cursus.gitbook.io/guide/rank-02/pipex/understand-pipex
-https://medium.com/@lannur-s/pipex-42-chapter-3-mastering-execve-using-fork-f93906a79d7c
-https://medium.com/@lannur-s/pipex-42-chapter-4-pipe-5b4afa4a37b7
-https://www.rozmichelle.com/pipes-forks-dups/
-https://stackoverflow.com/questions/5225810/is-it-possible-to-have-pipe-between-two-child-processes-created-by-same-parent
-https://www.codequoi.com/en/creating-and-killing-child-processes-in-c/
-https://tldp.org/LDP/lpg/node11.html
+- https://42-cursus.gitbook.io/guide/rank-02/pipex/understand-pipex
+- https://medium.com/@lannur-s/pipex-42-chapter-3-mastering-execve-using-fork-f93906a79d7c
+- https://medium.com/@lannur-s/pipex-42-chapter-4-pipe-5b4afa4a37b7
+- https://www.rozmichelle.com/pipes-forks-dups/
+- https://stackoverflow.com/questions/5225810/is-it-possible-to-have-pipe-between-two-child-processes-created-by-same-parent
+- https://www.codequoi.com/en/creating-and-killing-child-processes-in-c/
+- https://tldp.org/LDP/lpg/node11.html
 
 - stackoverflow guide
-https://stackoverflow.com/questions/37223341/c-pipes-causing-program-to-hang-in-some-cases
-https://stackoverflow.com/questions/13636252/c-minishell-adding-pipelines
-https://stackoverflow.com/questions/49306098/running-wc-command-using-execv
-https://stackoverflow.com/questions/40541831/c-child-process-not-executing
+- https://stackoverflow.com/questions/37223341/c-pipes-causing-program-to-hang-in-some-cases
+- https://stackoverflow.com/questions/13636252/c-minishell-adding-pipelines
+- https://stackoverflow.com/questions/49306098/running-wc-command-using-execv
+- https://stackoverflow.com/questions/40541831/c-child-process-not-executing
