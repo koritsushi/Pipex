@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 19:06:29 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/10/14 15:20:20 by mliyuan          ###   ########.fr       */
+/*   Updated: 2024/12/04 14:02:00 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,6 @@ void	ft_exit_cleanup(t_pipex *data)
 
 void	ft_error(char *error_code)
 {
-	perror(error_code);
+	ft_putstr_fd(error_code, 2);
 	exit(1);
 }
