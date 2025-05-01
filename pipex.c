@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 13:51:28 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/12/04 13:24:21 by mliyuan          ###   ########.fr       */
+/*   Updated: 2025/05/01 21:08:06 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,17 @@ static void	ft_process(t_pipex *data, char **envp)
 		}
 		i++;
 	}
-	while (wait(&status) > 0)
-		;
+	while (wait(&status) >= 0)
+	{
+		// if (WIFEXITED(status))
+		// {
+		// 	int sc = WEXITSTATUS(status);
+		// 	if (sc == 0)
+		// 		ft_putstr_fd("0\n", 1);
+		// 	else
+		// 		ft_putstr_fd("-1\n", 1);
+		// }
+	}
 }
 
 int	main(int argc, char **argv, char **envp)
