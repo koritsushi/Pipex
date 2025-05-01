@@ -6,7 +6,7 @@
 /*   By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 11:12:21 by mliyuan           #+#    #+#             */
-/*   Updated: 2024/11/13 13:49:56 by mliyuan          ###   ########.fr       */
+/*   Updated: 2025/05/01 14:56:19 by mliyuan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,8 @@ void	ft_child_process(t_pipex *data, int index);
 void	\
 ft_execute(t_pipex *data, char *cmd_paths, char **cmd_args, char **envp);
 
+//process_utils.c
+void	f_process(t_pipex *data, int index);
+void	l_process(t_pipex *data, int index);
+void	m_process(t_pipex *data, int index);
 #endif

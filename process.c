@@ -22,6 +22,7 @@ void	ft_parent_process(t_pipex *data, int index)
 	else if (index == data->cmd_count - 1)
 	{
 		close(data->pipes[index - 1][WRITE]);
+		close(data->pipes[index - 1][READ]);
 		close(data->outfile_fd);
 	}
 	else
@@ -31,30 +32,32 @@ void	ft_parent_process(t_pipex *data, int index)
 	}
 }
 
+void	close_pipe(t_pipex *data, int index)
+{
+	index = index + 1;
+	while (index < data->cmd_count - 1)
+	{
+		close(data->pipes[index][READ]);
+		close(data->pipes[index][WRITE]);
+		index++;
+	}
+}
+
 void	ft_child_process(t_pipex *data, int index)
 {
 	if (index == 0)
 	{
-		close(data->pipes[index][READ]);
-		dup2(data->infile_fd, STDIN_FILENO);
-		dup2(data->pipes[index][WRITE], STDOUT_FILENO);
-		close(data->pipes[index][WRITE]);
-		close(data->infile_fd);
+		f_process(data, index);
+		close_pipe(data, index);
 	}
 	else if (index == data->cmd_count - 1)
 	{
-		close(data->pipes[index - 1][WRITE]);
-		dup2(data->pipes[index - 1][READ], STDIN_FILENO);
-		dup2(data->outfile_fd, STDOUT_FILENO);
-		close(data->pipes[index - 1][READ]);
-		close(data->outfile_fd);
+		l_process(data, index);
 	}
 	else
 	{
-		close(data->pipes[index - 1][WRITE]);
-		dup2(data->pipes[index - 1][READ], STDIN_FILENO);
-		dup2(data->pipes[index][WRITE], STDOUT_FILENO);
-		close(data->pipes[index][READ]);
+		m_process(data, index);
+		close_pipe(data, index);
 	}
 }
 

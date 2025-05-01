@@ -6,7 +6,7 @@
 #    By: mliyuan <mliyuan@student.42kl.edu.my>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/09 09:38:33 by mliyuan           #+#    #+#              #
-#    Updated: 2024/11/12 21:42:48 by mliyuan          ###   ########.fr        #
+#    Updated: 2025/05/01 15:29:59 by mliyuan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,8 @@ SRCS 		=	pipex.c			\
 				process.c		\
 				pipex_utils.c	\
 				pipex_utils2.c	\
-				pipex_utils3.c
+				pipex_utils3.c	\
+				process_utils.c
 
 OBJS		=	$(SRCS:%.c=%.o)
 LIBFTDIR	=	./libft/
